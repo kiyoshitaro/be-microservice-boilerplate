@@ -18,7 +18,7 @@ services:
     networks:
       - be-microservice-boilerplate_microservice-platform-network
     ports:
-      - 3402:8400
+      - 3402:8300
     env_file:
       - ../../.env.global.dev
       - .env.dev

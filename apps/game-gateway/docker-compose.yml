@@ -8,4 +8,4 @@ services:
       dockerfile: ../../docker/nest/Dockerfile
     restart: unless-stopped
     ports:
-      - 3402:8400
+      - 3402:8300
