@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  platform-gateway:
+    image: microservice-platform-platform-gateway:1.0.0
+    container_name: microservice-platform-platform-gateway
+    build:
+      context: ./
+      dockerfile: ../../docker/nest/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3400:8100

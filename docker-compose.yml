@@ -1,0 +1,100 @@
+version: '3.8'
+services:
+  game-user-gateway:
+    image: microservice-platform-game-user-gateway:1.0.0
+    container_name: microservice-platform-game-user-gateway
+    env_file:
+      - .env.global.dev
+      - apps/game-user-gateway/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+
+  game-gateway:
+    image: microservice-platform-game-gateway:1.0.0
+    container_name: microservice-platform-game-gateway
+    env_file:
+      - .env.global.dev
+      - apps/game-gateway/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+
+  game-service:
+    image: microservice-platform-game-service:1.0.0
+    container_name: microservice-platform-game-service
+    env_file:
+      - .env.global.dev
+      - apps/game-service/.env.dev
+    networks:
+      - microservice-platform-network
+    depends_on:
+      - database
+      - redis
+
+  platform-gateway:
+    image: microservice-platform-platform-gateway:1.0.0
+    container_name: microservice-platform-platform-gateway
+    env_file:
+      - .env.global.dev
+      - apps/platform-gateway/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+    depends_on:
+      - database
+      - redis
+
+  user-service:
+    image: microservice-platform-user-service:1.0.0
+    container_name: microservice-platform-user-service
+    env_file:
+      - .env.global.dev
+      - apps/user-service/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+    depends_on:
+      - database
+      - redis
+
+  database:
+    container_name: microservice-platform-database
+    image: postgres:14.1
+    restart: unless-stopped
+    volumes:
+      - microservice-platform-database:/var/lib/postgres
+      - ./docker/postgres:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 5400:5432
+    networks:
+      - microservice-platform-network
+
+  redis:
+    container_name: microservice-platform-event
+    image: redis
+    restart: unless-stopped
+    ports:
+      - 6381:6379
+    command: redis-server --save 20 1 --loglevel warning
+    networks:
+      - microservice-platform-network
+    volumes:
+      - microservice-platform-event:/data
+
+networks:
+  microservice-platform-network:
+    driver: bridge
+
+volumes:
+  microservice-platform-database:
+    driver: local
+  microservice-platform-event:
+    driver: local

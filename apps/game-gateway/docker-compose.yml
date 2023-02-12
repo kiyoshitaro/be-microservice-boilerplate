@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  game-gateway:
+    image: microservice-platform-game-gateway:1.0.0
+    container_name: microservice-platform-game-gateway
+    build:
+      context: ./
+      dockerfile: ../../docker/nest/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3402:8400

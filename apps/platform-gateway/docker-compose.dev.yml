@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  platform-gateway:
+    image: microservice-platform-platform-gateway:1.0.0-dev
+    container_name: microservice-platform-platform-gateway-dev
+    build:
+      context: ../../
+      dockerfile: docker/nest/dev.dockerfile
+    working_dir: /home/node/workspace
+    command: npx nx serve platform-gateway
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ../../:/home/node/workspace
+      - /home/node/workspace/apps/
+      - .:/home/node/workspace/apps/platform-gateway
+      - /home/node/workspace/node_modules
+    networks:
+      - be-microservice-boilerplate_microservice-platform-network
+    ports:
+      - 3400:8100
+    env_file:
+      - ../../.env.global.dev
+      - .env.dev
+
+networks:
+  be-microservice-boilerplate_microservice-platform-network:
+    external: true
