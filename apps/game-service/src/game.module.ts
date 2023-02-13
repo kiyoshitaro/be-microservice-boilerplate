@@ -42,7 +42,7 @@ const repositories = [
 
 const commands = [Command.CreateGameHandler];
 
-const queries = [Query.GetsGameHandler, Query.GetGameHandler];
+const queries = [Query.GetGamesHandler, Query.GetGameHandler];
 
 const eventHandlers = [EventHandler.GameCreatedHandler];
 

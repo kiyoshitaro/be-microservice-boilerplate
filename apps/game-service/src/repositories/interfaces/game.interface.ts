@@ -10,5 +10,9 @@ export interface IGameRepository extends IRepository<GameModel> {
     sortBy?: OrderByDirection
   ): Promise<GameModel[]>;
 
+  listPaginate(
+    filter?: GameFilter
+  ): Promise<{ items: GameModel[]; pagination: Record<string, any> }>;
+
   countGame(filter: GameFilter): Promise<number>;
 }

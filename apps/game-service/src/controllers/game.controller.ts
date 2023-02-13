@@ -1,13 +1,12 @@
 import { GameService } from '@microservice-platform/game-service/services';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { GameFilter } from '@microservice-platform/game-service/filters';
 import { Controller, HttpStatus } from '@nestjs/common';
 import {
   CreateGameDto,
-  GetGameDetailDto,
-  GetGamesDto,
+  GetByIdDto,
   ServiceResponseDto,
 } from '@microservice-platform/shared/dtos';
+import { GetGamesDto } from '../dtos';
 
 @Controller('game')
 export class GameController {
@@ -15,15 +14,10 @@ export class GameController {
 
   @MessagePattern('get_paging_game')
   async getData(
-    @Payload() filters?: GetGamesDto
+    @Payload() data?: GetGamesDto
   ): Promise<ServiceResponseDto> {
-    const result = await this.gameService.getPagingGames({
-      searchText: filters.search_text,
-      limit: filters.limit,
-      offset: filters.offset,
-      orderBy: 'created_at',
-      sortBy: "DESC"
-    });
+    const { filters, include, isPagination } = data;
+    const result = await this.gameService.getPagingGames(filters, include, isPagination);
     return {
       statusCode: HttpStatus.OK,
       data: result,
@@ -31,7 +25,7 @@ export class GameController {
   }
 
   @MessagePattern('get_detail')
-  async getGameDetail(@Payload() data: GetGameDetailDto): Promise<ServiceResponseDto> {
+  async getGameDetail(@Payload() data: GetByIdDto): Promise<ServiceResponseDto> {
     const res = await this.gameService.findById(data.id, "game_info");
     return {
       statusCode: HttpStatus.OK,

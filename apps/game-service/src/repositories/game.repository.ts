@@ -29,14 +29,14 @@ export class GameRepository
     if (filter?.limit) {
       query = query.limit(filter.limit);
     }
-    if (filter?.offset) {
-      query = query.offset(filter.offset);
+    if (filter?.page) {
+      query = query.offset(filter.page * filter.limit);
     }
-    if (filter?.searchText) {
+    if (filter?.search_text) {
       query = query.where(
         raw('lower("name")'),
         "like",
-        `%${filter.searchText.toLowerCase()}%`
+        `%${filter.search_text.toLowerCase()}%`
       );
     }
     return query;
@@ -53,6 +53,19 @@ export class GameRepository
     );
     return query;
   }
+
+  // NOTE: for paging
+  async listPaginate(
+    filter?: GameFilter
+  ): Promise<{ items: GameModel[]; pagination: Record<string, any> }> {
+    const filterPagination = { ...filter };
+    delete filterPagination.page;
+    delete filterPagination.limit;
+    let query = GameRepository.queryFilter(this.query(), filter);
+    query = GameRepository.baseQueryFilter(query, filter);
+    return super.paginate(query, filter?.page, filter?.limit);
+  }
+
 
   async countGame(filter: GameFilter): Promise<number> {
     let query = GameRepository.queryFilter(

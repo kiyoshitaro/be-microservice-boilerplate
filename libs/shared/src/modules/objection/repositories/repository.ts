@@ -6,7 +6,6 @@ import { ObjectionService } from '../service';
 import { Knex as KnexType } from 'knex';
 import { ModelNotFound } from '../exceptions';
 import { IRepository } from './repository.interface';
-// import { TemplateFilter } from '@microservice-platform/template-service/filters';
 import KnexLogger from '../knex-logging';
 import { ESortBy } from '@microservice-platform/shared/constants';
 
@@ -18,21 +17,21 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     query: AnyQueryBuilder,
     filter: BaseFilter
   ): AnyQueryBuilder {
-    if (filter.orderBy) {
-      if (filter.sortBy && filter.sortBy === ESortBy.ASC) {
-        query = query.orderBy(filter.orderBy, 'ASC');
+    if (filter.order_by) {
+      if (filter.sort_by && filter.sort_by === ESortBy.ASC) {
+        query = query.orderBy(filter.order_by, 'ASC');
       } else {
-        query = query.orderBy(filter.orderBy, 'DESC');
+        query = query.orderBy(filter.order_by, 'DESC');
       }
     }
-    if (filter.offset) {
-      query = query.offset(filter.offset);
-    }
-    if (filter.limit) {
+
+    if (filter.limit && filter.page) {
       query = query.limit(filter.limit);
+      query = query.offset(filter.limit * (filter.page - 1));
     }
     return query;
   }
+
   static queryFilter(query: AnyQueryBuilder, filter: any): AnyQueryBuilder {
     return query;
   }
@@ -317,10 +316,36 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
   with(queryBuilder: T, relation: string): Promise<T>;
   with(queryBuilder: T[], relation: string): Promise<T[]>;
   async with(queryBuilder: T | T[], relation: string): Promise<any> {
-    return this.model.fetchGraph(queryBuilder, relation);
+    const dbConnection = process.env.DB_DEBUG
+      ? KnexLogger(this.knexConnection)
+      : this.knexConnection;
+    return this.model.fetchGraph(queryBuilder, relation, {
+      transaction: dbConnection,
+    });
   }
 
   async findById(id: number | string): Promise<T> {
     return this.query().findById(id);
+  }
+
+  // NOTE: for paging
+  async paginate(
+    queryBuilder: AnyQueryBuilder,
+    page: number,
+    perPage: number
+  ): Promise<{ items: T[]; pagination: Record<string, any> }> {
+    page = +page ? +page : 1;
+    perPage = +perPage ? +perPage : 20;
+
+    const result = await queryBuilder.page(page - 1, perPage);
+    return {
+      pagination: {
+        current_page: page,
+        total_pages: Math.ceil(result.total / perPage),
+        per_page: perPage,
+        total: result.total,
+      },
+      items: result.results as T[],
+    };
   }
 }

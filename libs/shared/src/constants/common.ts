@@ -1,4 +1,4 @@
 export enum ESortBy {
-  ASC = 1,
-  DESC = 2,
+  ASC = 'asc',
+  DESC = 'desc',
 }

@@ -1,5 +1,18 @@
 import { BaseModel } from './base-model';
 import { FetchGraphOptions, PartialModelObject } from 'objection';
+import {
+  IsIn,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
+import { MAX_LIMIT_PAGINATION } from '../../constants/value';
+import { RequireWith } from '../../validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ESortBy } from '@microservice-platform/shared/constants';
+import { Type } from 'class-transformer';
 
 export type GenericFunction = (...args: any[]) => any;
 export type GenericClass = Record<string, any>;
@@ -31,12 +44,12 @@ export interface NestedLoadRelSchema {
   $relation?: string;
   $modify?: string[];
   [key: string]:
-    | boolean
-    | number
-    | string
-    | string[]
-    | NestedLoadRelSchema
-    | undefined;
+  | boolean
+  | number
+  | string
+  | string[]
+  | NestedLoadRelSchema
+  | undefined;
 }
 
 export interface LoadRelSchema {
@@ -45,9 +58,41 @@ export interface LoadRelSchema {
 
 export type LoadRelOptions = FetchGraphOptions;
 
-export type BaseFilter = {
-  orderBy?: string;
+export class BaseFilter {
+  @ApiPropertyOptional({
+    example: 'id',
+    nullable: true,
+  })
+  @IsOptional()
+  @IsString()
+  @RequireWith(['sort_by'])
+  order_by?: string;
+
+  @ApiPropertyOptional({ example: 20, nullable: true })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Max(MAX_LIMIT_PAGINATION)
+  @RequireWith(['page'])
+  @Type(() => Number)
   limit?: number;
-  offset?: number;
-  sortBy?: number;
-};
+
+  @ApiPropertyOptional({ example: 1, nullable: true })
+  @IsOptional()
+  @IsNumber()
+  @RequireWith(['limit'])
+  @Min(1)
+  @Type(() => Number)
+  page?: number;
+
+  @ApiPropertyOptional({
+    example: 'asc',
+    nullable: true,
+    enum: Object.values(ESortBy),
+  })
+  @IsOptional()
+  @IsString()
+  @IsIn(Object.values(ESortBy))
+  @RequireWith(['order_by'])
+  sort_by?: string;
+}

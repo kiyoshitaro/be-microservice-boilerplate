@@ -1,18 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { GameFilter } from '@microservice-platform/game-service/filters';
 import { Service } from '@microservice-platform/game-service/services/service';
-import { GetsGameQuery } from '@microservice-platform/game-service/queries/impl';
+import { GetGamesPaginationQuery, GetGamesQuery } from '@microservice-platform/game-service/queries/impl';
 import { CreateGameCommand } from '@microservice-platform/game-service/commands/impl';
 import { GetGameQuery } from '@microservice-platform/game-service/queries/impl';
 import { CreateGameDto } from '@microservice-platform/shared/dtos';
 
 @Injectable()
 export class GameService extends Service {
-  async getPagingGames(
+  async getGames(
     filters?: GameFilter,
-    include = ''
+    include: string = ''
   ): Promise<Record<string, any>[]> {
-    return this.queryBus.execute(new GetsGameQuery(filters, include));
+    return this.queryBus.execute(new GetGamesQuery(filters, include));
+  }
+
+  async getPagingGames(
+    filters: GameFilter,
+    include: string,
+    isPagination: boolean
+  ): Promise<Record<string, any>> {
+    if (isPagination) {
+      return this.queryBus.execute(
+        new GetGamesPaginationQuery(filters, include)
+      );
+    }
+
+    return this.queryBus.execute(new GetGamesQuery(filters, include));
   }
 
   // NOTE: `include` is group of field that defined in transformer (set of detail field, relationMapping, )
