@@ -7,6 +7,8 @@ import { GameTokenTransformer } from './game-token.transformer';
 
 @Injectable()
 export class GameTransformer extends Transformer<GameModel> {
+  
+  // NOTE: Must define relationMappings of table here
   availableIncludes = ['game_info', 'game_token'];
   defaultIncludes = [];
 
@@ -29,6 +31,7 @@ export class GameTransformer extends Transformer<GameModel> {
     };
   }
 
+  // NOTE: example to transform data when join with other table
   async include_game_info(
     model: GameModel,
     options: Transformer$IncludeMethodOptions

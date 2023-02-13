@@ -15,6 +15,7 @@ export class GameService extends Service {
     return this.queryBus.execute(new GetsGameQuery(filters, include));
   }
 
+  // NOTE: `include` is group of field that defined in transformer (set of detail field, relationMapping, )
   async findById(id: string, include = ''): Promise<Record<string, any>> {
     return this.queryBus.execute(new GetGameQuery(id, include));
   }
