@@ -19,7 +19,7 @@ class GameModel extends BaseModel {
 
   static useUUID = true;
   game_info: BaseModel;
-  game_tokens: BaseModel[];
+  game_token: BaseModel[];
 
   static jsonSchema = {
     type: 'object',
@@ -48,7 +48,7 @@ GameModel.relationMappings = {
       to: 'game_info.game_id',
     },
   },
-  game_tokens: {
+  game_token: {
     relation: BaseModel.HasManyRelation,
     modelClass: () => GameTokenModel,
     join: {

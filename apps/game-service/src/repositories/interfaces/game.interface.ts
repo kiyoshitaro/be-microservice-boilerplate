@@ -1,12 +1,14 @@
-import { GameInfoModel } from '../../models';
+import { GameModel } from '../../models';
 import { IRepository } from '@microservice-platform/shared/objection';
-import { GameInfoFilter } from '@microservice-platform/game-service/filters';
+import { GameFilter } from '@microservice-platform/game-service/filters';
 import { OrderByDirection } from 'objection';
 
-export interface IGameInfoRepository extends IRepository<GameInfoModel> {
+export interface IGameRepository extends IRepository<GameModel> {
   list(
-    filter?: GameInfoFilter,
+    filter?: GameFilter,
     orderBy?: string,
     sortBy?: OrderByDirection
-  ): Promise<GameInfoModel[]>;
+  ): Promise<GameModel[]>;
+
+  countGame(filter: GameFilter): Promise<number>;
 }

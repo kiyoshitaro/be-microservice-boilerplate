@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GameModel } from '../models';
 import { IGameRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection } from 'objection';
+import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { GameFilter } from '@microservice-platform/game-service/filters';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
 
@@ -26,8 +26,18 @@ export class GameRepository
     if (filter?.client_ids) {
       query = query.whereIn(`${this.tableName}.client_id`, filter?.client_ids);
     }
-    if (filter?.names) {
-      query = query.whereIn(`${this.tableName}.name`, filter?.names);
+    if (filter?.limit) {
+      query = query.limit(filter.limit);
+    }
+    if (filter?.offset) {
+      query = query.offset(filter.offset);
+    }
+    if (filter?.searchText) {
+      query = query.where(
+        raw('lower("name")'),
+        "like",
+        `%${filter.searchText.toLowerCase()}%`
+      );
     }
     return query;
   }
@@ -43,4 +53,17 @@ export class GameRepository
     );
     return query;
   }
+
+  async countGame(filter: GameFilter): Promise<number> {
+    let query = GameRepository.queryFilter(
+      this.query().whereNotDeleted(),
+      filter
+    );
+    //@ts-ignore
+    const countGames: { num_games: number }[] = await query.select(
+      raw("count(id) as num_games")
+    );
+    return countGames[0].num_games;
+  }
+
 }

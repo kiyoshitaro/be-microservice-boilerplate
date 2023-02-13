@@ -8,11 +8,15 @@ import { CreateGameDto } from '@microservice-platform/shared/dtos';
 
 @Injectable()
 export class GameService extends Service {
-  async list(
+  async getPagingGames(
     filters?: GameFilter,
     include = ''
   ): Promise<Record<string, any>[]> {
     return this.queryBus.execute(new GetsGameQuery(filters, include));
+  }
+
+  async findById(id: string, include = ''): Promise<Record<string, any>> {
+    return this.queryBus.execute(new GetGameQuery(id, include));
   }
 
   async create(
