@@ -6,15 +6,15 @@ import { BadRequestException } from '@nestjs/common';
 
 export const getRelationsFromIncludes = (
   include: string,
-  ignore = ''
+  ignores: Array<string>
 ): string => {
-  const includes = include.split(',');
-  const ignores = ignore.split(',');
 
-  let includeStr = includes
-    .filter((item) => ignores.indexOf(item) < 0)
-    .join(',');
-  return convertTreeToString(convertStringToObject(includeStr));
+  const tree = convertStringToObject(include);
+  ignores.forEach((item) => {
+    delete tree[item];
+  })
+
+  return `[${convertTreeToString(tree)}]`;
 };
 
 export const encryptData = (message: string, secret: string) => {

@@ -8,6 +8,7 @@ import { ModelNotFound } from '../exceptions';
 import { IRepository } from './repository.interface';
 import KnexLogger from '../knex-logging';
 import { ESortBy } from '@microservice-platform/shared/constants';
+import { getRelationsFromIncludes } from '@microservice-platform/shared/utils';
 
 export class Repository<T extends BaseModel> implements IRepository<T> {
   model: any;
@@ -313,16 +314,18 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     return this.query().insert(inputs).returning('*') as unknown as T[];
   }
 
-  with(queryBuilder: T, relation: string): Promise<T>;
-  with(queryBuilder: T[], relation: string): Promise<T[]>;
-  async with(queryBuilder: T | T[], relation: string): Promise<any> {
+  with(queryBuilder: T, include: string): Promise<T>;
+  with(queryBuilder: T[], include: string): Promise<T[]>;
+  async with(queryBuilder: T | T[], include: string): Promise<any> {
     const dbConnection = process.env.DB_DEBUG
       ? KnexLogger(this.knexConnection)
       : this.knexConnection;
-    return this.model.fetchGraph(queryBuilder, relation, {
+    const relations = getRelationsFromIncludes(include, this.model.withIgnores);
+    return this.model.fetchGraph(queryBuilder, relations, {
       transaction: dbConnection,
     });
   }
+
 
   async findById(id: number | string): Promise<T> {
     return this.query().findById(id);

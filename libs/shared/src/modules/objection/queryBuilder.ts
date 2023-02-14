@@ -17,6 +17,23 @@ export class CustomQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<
   NumberQueryBuilderType!: CustomQueryBuilder<M, number>;
   PageQueryBuilderType!: CustomQueryBuilder<M, Page<M>>;
 
+  _withGraph(exp, options, algorithm) {
+    let node = exp?.node;
+    // @ts-ignore
+    this.modelClass().withIgnores.forEach((withIgnore) => {
+      if (node) {
+        delete node[withIgnore];
+        if (node['$childNames']) {
+          node['$childNames'] = node['$childNames'].filter(
+            (item) => item != withIgnore
+          );
+        }
+      }
+    });
+    // @ts-ignore
+    return super._withGraph(exp, options, algorithm);
+  }
+
   async paginate<T>(page: number, perPage: number): Promise<Pagination<T>> {
     page = +page ? +page : 1;
     perPage = +perPage ? +perPage : 15;

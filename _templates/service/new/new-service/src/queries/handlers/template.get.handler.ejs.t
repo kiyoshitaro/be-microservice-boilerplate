@@ -6,7 +6,6 @@ import { I<%= h.changeCase.pascalCase(name) %>Repository } from '@microservice-p
 import { Inject } from '@nestjs/common';
 import { REPOSITORIES } from '@microservice-platform/<%=name%>-service/constants';
 import { <%= h.changeCase.pascalCase(name) %>Transformer } from '@microservice-platform/<%=name%>-service/transformers';
-import { getRelationsFromIncludes } from '@microservice-platform/shared/utils';
 import { Get<%= h.changeCase.pascalCase(name) %>Query } from '@microservice-platform/<%=name%>-service/queries/impl/get-<%=name%>.query';
 
 @QueryHandler(Get<%= h.changeCase.pascalCase(name) %>Query)
@@ -22,8 +21,7 @@ export class Get<%= h.changeCase.pascalCase(name) %>Handler
   async execute(query: Get<%= h.changeCase.pascalCase(name) %>Query): Promise<Record<string, any>> {
     const { id, include } = query;
     let model = await this.repository.findById(id);
-    const relations = getRelationsFromIncludes(include, 'detail');
-    model = await this.repository.with(model, relations);
+    model = await this.repository.with(model, include);
     return this.transformer.item(model, { include });
   }
 }

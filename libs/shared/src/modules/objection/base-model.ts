@@ -15,6 +15,7 @@ export class BaseModel extends Model {
   static deleteColumn = 'deleted_at';
   static softDelete = false;
   static useUUID = false;
+  static withIgnores = ['detail'];
 
   /**
    * Specifies the connection to be used by the model.

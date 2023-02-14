@@ -165,9 +165,9 @@ export interface IRepository<T extends BaseModel> {
    */
   bulkInsert(inputs: ModelKeys<T>[]): Promise<T[]>;
 
-  with(queryBuilder: T, relation: string): Promise<T>;
+  with(queryBuilder: T, include: string): Promise<T>;
 
-  with(queryBuilder: T[], relation: string): Promise<T[]>;
+  with(queryBuilder: T[], include: string): Promise<T[]>;
 
   /**
    * Find a model by id

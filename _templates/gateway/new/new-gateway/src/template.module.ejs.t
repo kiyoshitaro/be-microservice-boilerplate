@@ -14,14 +14,6 @@ import {HealthModule} from "@microservice-platform/<%=name%>-gateway/health/heal
     controllers: [<%= h.changeCase.pascalCase(name) %>Controller],
     providers : [
         ConfigAppService,
-        # {
-        #     provide: 'OAUTH_SERVICE',
-        #     useFactory: (configService: ConfigAppService) => {
-        #        const oauthServiceOptions = configService.get('oauthService');
-        #        return ClientProxyAppFactory.create(oauthServiceOptions);
-        #     },
-        #     inject: [ConfigAppService],
-        # }
     ]
 })
 export class AppModule {}
