@@ -47,9 +47,12 @@ bash new-service.sh user (name of service)
 ```sh
 bash restart-service.sh user-service
 ``` 
+
+- **NOTE**: in window wsl should comment ***npm install --verbose*** in docker/nest/dev.dockerfile then install after connect to container
 ### Create database
 - Create db user_service in host
 - Connect service and run  
 ```sh
 bash migrate.sh user-service
 ``` 
+
