@@ -19,14 +19,6 @@ export class GetGamesHandler implements IQueryHandler<GetGamesQuery> {
     let models = await this.gameRepository.list(filter);
     const relations = getRelationsFromIncludes(include);
     models = await this.gameRepository.with(models, relations);
-    // let totalPage: number = 1;
-    // if (filter?.limit) {
-    //   const { limit, page, ...f } = filter;
-    //   const numGames = await this.gameRepository.countGame(f);
-    //   totalPage = Math.ceil(numGames / filter.limit);
-    // }
-    // const games = await this.transformer.collection(models, { include })
-    // return { games, totalPage };
     return this.transformer.collection(models, { include });
   }
 }

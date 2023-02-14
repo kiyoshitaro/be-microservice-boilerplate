@@ -26,12 +26,6 @@ export class GameRepository
     if (filter?.client_ids) {
       query = query.whereIn(`${this.tableName}.client_id`, filter?.client_ids);
     }
-    if (filter?.limit) {
-      query = query.limit(filter.limit);
-    }
-    if (filter?.page) {
-      query = query.offset(filter.page * filter.limit);
-    }
     if (filter?.search_text) {
       query = query.where(
         raw('lower("name")'),
