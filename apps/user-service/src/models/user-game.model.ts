@@ -14,7 +14,7 @@ class UserGameModel extends BaseModel {
   deleted_at?: Date | null;
 
   static useUUID = true;
-  owner: BaseModel;
+  owner: UserModel;
 
   static jsonSchema = {
     type: 'object',

@@ -15,7 +15,7 @@ class GameInfoModel extends BaseModel {
   deleted_at?: Date | null;
 
   static useUUID = true;
-  game: BaseModel;
+  game: GameModel;
 
   static jsonSchema = {
     type: 'object',

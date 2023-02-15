@@ -11,7 +11,7 @@ class GameTokenModel extends BaseModel {
   updated_at?: Date | null;
   deleted_at?: Date | null;
 
-  game: BaseModel;
+  game: GameModel;
 
   static jsonSchema = {
     type: 'object',

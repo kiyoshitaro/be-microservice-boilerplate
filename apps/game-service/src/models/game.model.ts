@@ -18,8 +18,8 @@ class GameModel extends BaseModel {
   deleted_at?: Date | null;
 
   static useUUID = true;
-  game_info: BaseModel;
-  game_token: BaseModel[];
+  game_info: GameInfoModel;
+  game_token: GameTokenModel[];
 
   static jsonSchema = {
     type: 'object',

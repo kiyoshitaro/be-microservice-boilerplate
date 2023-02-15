@@ -1,6 +1,9 @@
 import { Transformer$IncludeMethodOptions } from '../interfaces';
 import { BaseModel } from '../modules/objection';
-import { convertObjectToString, convertStringToObject } from "@microservice-platform/shared/utils";
+import {
+  convertObjectToString,
+  convertStringToObject,
+} from '@microservice-platform/shared/utils';
 
 export abstract class Transformer<T extends BaseModel> {
   public readonly availableIncludes = [];
@@ -16,7 +19,7 @@ export abstract class Transformer<T extends BaseModel> {
    * @param options
    */
   async item(
-    model: BaseModel,
+    model: T,
     options?: Transformer$IncludeMethodOptions
   ): Promise<Record<string, any> | null> {
     if (!model) return null;
@@ -32,7 +35,7 @@ export abstract class Transformer<T extends BaseModel> {
    * @param options
    */
   async collection(
-    arr: Array<BaseModel | string>,
+    arr: Array<T | string>,
     options?: Transformer$IncludeMethodOptions
   ): Promise<Array<any>> {
     if (!arr || arr.length === 0) return [];
@@ -47,11 +50,11 @@ export abstract class Transformer<T extends BaseModel> {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   parseIncludes(include: string[] | string | Object = ''): Record<string, any> {
-    return convertStringToObject(include)
+    return convertStringToObject(include);
   }
 
   convertObjectToStr(data: string[] | string | Object = ''): string {
-    return convertObjectToString(data)
+    return convertObjectToString(data);
   }
 
   async work(
@@ -71,7 +74,7 @@ export abstract class Transformer<T extends BaseModel> {
       const nestedIncludes = includes[include];
       if (this[handler] && this.availableIncludes.includes(include)) {
         result[include] = await this[handler](data, {
-          include: nestedIncludes || '',
+          include: this.convertObjectToStr(nestedIncludes) || '',
         });
       }
     }
