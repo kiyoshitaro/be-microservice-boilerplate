@@ -1,14 +1,11 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Inject, Param, Query } from '@nestjs/common';
+import { Controller, Get, Inject, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ClientAppProxy } from '@microservice-platform/shared/microservices';
 import { GameValidationPipe } from '../validators';
 import { GetGamesQueryDto } from '../dtos';
-import {
-  GetByIdDto,
-} from '@microservice-platform/shared/dtos';
 
 @ApiTags('game-gateway')
-@Controller('game')
+@Controller('games')
 export class GameController {
   constructor(
     @Inject('GAME_SERVICE')
@@ -27,13 +24,12 @@ export class GameController {
       include: '',
       isPagination: true,
     });
-    return res.data;
+    return res;
   }
 
   @Get(':id')
-  // public async getGameDetail(@Param('id') id: string): Promise<any> {
-  public async getGameDetail(@Param() data: GetByIdDto): Promise<any> {
-    const res = await this.gameService.sendAwait('get_detail', data);
-    return res.data
+  public async getGameDetail(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<any> {
+    const res = await this.gameService.sendAwait('get_game_by_id', { id, include: "game_info" });
+    return res
   }
 }

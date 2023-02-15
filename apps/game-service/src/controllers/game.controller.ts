@@ -24,9 +24,10 @@ export class GameController {
     };
   }
 
-  @MessagePattern('get_detail')
+  @MessagePattern('get_game_by_id')
   async getGameDetail(@Payload() data: GetByIdDto): Promise<ServiceResponseDto> {
-    const res = await this.gameService.findById(data.id, "game_info");
+    const { id, include } = data;
+    const res = await this.gameService.findById(id, include);
     return {
       statusCode: HttpStatus.OK,
       data: res

@@ -5,7 +5,7 @@ import { IncludeDto } from './include.dto';
 
 export class GetByIdDto extends IntersectionType(IncludeDto) {
   @ApiProperty({
-    example: 'b606564b-f923-4034-86bd-7e4b8feb9fd7',
+    example: 'b0feba33-0ed3-4983-a38f-dd3abbd89b1b',
     nullable: false,
   })
   @IsUUID()
