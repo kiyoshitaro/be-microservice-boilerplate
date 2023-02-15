@@ -58,3 +58,11 @@ bash restart-service.sh user-service
 bash migrate.sh user-service
 ``` 
 
+### Testing
+- Run test gateway outside docker and test service inside docker
+```sh
+npm run test:api game-gateway
+
+connect ....
+npm run test:api game-service
+``` 
