@@ -2,7 +2,7 @@ import { isEmpty, startCase } from 'lodash';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { Injectable, Type } from '@nestjs/common';
-import { ValidationFailed } from '../exceptions';
+// import { ValidationFailed } from '../exceptions';
 
 @Injectable()
 export class BaseValidator {
@@ -30,7 +30,7 @@ export class BaseValidator {
         bag = { ...bag, ...childErrorBag };
       }
 
-      throw new ValidationFailed(bag);
+      // throw new ValidationFailed(bag);
     }
 
     return schema;
