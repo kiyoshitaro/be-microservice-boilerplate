@@ -48,7 +48,9 @@ bash new-service.sh user (name of service)
 bash restart-service.sh user-service
 ``` 
 
-- **NOTE**: in window wsl should comment ***npm install --verbose*** in docker/nest/dev.dockerfile then install after connect to container
+- **NOTE**: 
+  - in window wsl should comment ***npm install --verbose*** in docker/nest/dev.dockerfile then install after connect to container
+  - Add port/host in test api file, docker-compose.dev.yml manually
 ### Create database
 - Create db user_service in host
 - Connect service and run  
