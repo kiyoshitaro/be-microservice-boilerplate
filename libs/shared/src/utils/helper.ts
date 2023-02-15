@@ -8,11 +8,10 @@ export const getRelationsFromIncludes = (
   include: string,
   ignores: Array<string>
 ): string => {
-
   const tree = convertStringToObject(include);
   ignores.forEach((item) => {
     delete tree[item];
-  })
+  });
 
   return `[${convertTreeToString(tree)}]`;
 };
@@ -72,7 +71,7 @@ export const delay = (ms: number) => {
 };
 
 export function convertObjectToString(
-  data: string[] | string | Object = ''
+  data: string[] | string | object = ''
 ): string {
   if (data instanceof Object) {
     const result: any[] = [];
@@ -95,12 +94,12 @@ export function convertObjectToString(
   return data;
 }
 
-export function convertTreeToString(data) {
-  let keys = Object.keys(data);
+export function convertTreeToString(data: object = {}): string {
+  const keys = Object.keys(data);
   let result = '';
   for (let i = 0; i < keys.length; i++) {
     if (Object.keys(data[keys[i]]).length > 0) {
-      result += `${keys[i]}[${convertTreeToString(data[keys[i]])}]`;
+      result += `${keys[i]}.[${convertTreeToString(data[keys[i]])}]`;
     } else {
       result += keys[i];
     }
@@ -112,7 +111,7 @@ export function convertTreeToString(data) {
 }
 
 export function convertStringToObject(
-  include: string[] | string | Object = ''
+  include: string[] | string | object = ''
 ): Record<string, any> {
   if (include instanceof Object) {
     return include;
