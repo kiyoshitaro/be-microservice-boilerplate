@@ -25,7 +25,6 @@ export class UserController {
   @MessagePattern('get_user_games')
   async getUserGame(@Payload() data: GetUserGameDto): Promise<ServiceResponseDto> {
     const { filters, include } = data;
-    console.log("🚀 ~ file: user.controller.ts:28 ~ UserController ~ getUserGame ~ filters", filters)
     const result = await this.userService.getUserGames(
       filters,
       include,

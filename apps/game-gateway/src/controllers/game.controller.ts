@@ -3,6 +3,7 @@ import { Controller, Get, Inject, Param, ParseUUIDPipe, Query } from '@nestjs/co
 import { ClientAppProxy } from '@microservice-platform/shared/microservices';
 import { GameValidationPipe } from '../validators';
 import { GetGamesQueryDto, GetUserGamesQueryDto } from '../dtos';
+import { convertQueryDtoToFilter } from '@microservice-platform/shared/utils';
 
 @ApiTags('game-gateway')
 @Controller('games')
@@ -36,6 +37,8 @@ export class GameController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Query() query: GetUserGamesQueryDto
   ): Promise<any> {
+    query = convertQueryDtoToFilter(query, null, { amount: 'gameFilter' });
+
     return await this.userService.sendAwait('get_user_games', {
       filters: {
         ...query,

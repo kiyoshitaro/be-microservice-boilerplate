@@ -1,7 +1,6 @@
 import { BaseModel } from '@microservice-platform/shared/objection';
 import {
   GameInfoModel,
-  GameTokenModel,
 } from '@microservice-platform/game-service/models';
 
 class GameModel extends BaseModel {
@@ -19,7 +18,6 @@ class GameModel extends BaseModel {
 
   static useUUID = true;
   game_info: GameInfoModel;
-  game_token: GameTokenModel[];
 
   static jsonSchema = {
     type: 'object',
@@ -46,14 +44,6 @@ GameModel.relationMappings = {
     join: {
       from: 'games.id',
       to: 'game_info.game_id',
-    },
-  },
-  game_token: {
-    relation: BaseModel.HasManyRelation,
-    modelClass: () => GameTokenModel,
-    join: {
-      from: 'games.id',
-      to: 'game_token.game_id',
     },
   },
 };

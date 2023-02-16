@@ -3,18 +3,15 @@ import { Transformer } from '@microservice-platform/shared/transformers';
 import { Transformer$IncludeMethodOptions } from '@microservice-platform/shared/interfaces';
 import { Injectable, Inject } from '@nestjs/common';
 import { GameInfoTransformer } from './game-info.transformer';
-import { GameTokenTransformer } from './game-token.transformer';
 
 @Injectable()
 export class GameTransformer extends Transformer<GameModel> {
-  
+
   // NOTE: Must define relationMappings of table here
-  availableIncludes = ['game_info', 'game_token'];
+  availableIncludes = ['game_info'];
   defaultIncludes = [];
 
   constructor(
-    @Inject(GameInfoTransformer)
-    private readonly gameTokenTransformer: GameTokenTransformer,
     @Inject(GameInfoTransformer)
     private readonly gameInfoTransformer: GameInfoTransformer
   ) {
@@ -37,13 +34,6 @@ export class GameTransformer extends Transformer<GameModel> {
     options: Transformer$IncludeMethodOptions
   ) {
     return this.gameInfoTransformer.item(model.game_info, options);
-  }
-
-  async include_game_token(
-    model: GameModel,
-    options: Transformer$IncludeMethodOptions
-  ) {
-    return this.gameTokenTransformer.collection(model.game_token, options);
   }
 
   async include_detail(

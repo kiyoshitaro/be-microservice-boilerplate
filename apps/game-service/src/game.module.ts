@@ -21,7 +21,6 @@ import { configEventPublisher } from '@microservice-platform/game-service/config
 const transformers = [
   Transformer.GameTransformer,
   Transformer.GameInfoTransformer,
-  Transformer.GameTokenTransformer,
 ];
 
 const repositories = [
