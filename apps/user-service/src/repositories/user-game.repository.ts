@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UserGameModel } from '../models';
 import { IUserGameRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection } from 'objection';
+import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
 
@@ -16,10 +16,32 @@ export class UserGameRepository
     return UserGameModel.tableName;
   }
 
+
+  static joinTable(query: AnyQueryBuilder, relation: string): AnyQueryBuilder {
+    if (UserGameModel.relationMappings.hasOwnProperty(relation)) {
+      return query.joinRelated(relation);
+    } else {
+      throw new InternalServerErrorException(
+        `Relation ${relation} does not exist in model ${UserGameModel.tableName}`
+      );
+    }
+  }
+
+  static joinForFilter(query: AnyQueryBuilder, filter: UserGameFilter): AnyQueryBuilder {
+    if (filter?.search_text) {
+      // user is name of relationMapping
+      return this.joinTable(query, "user");
+    }
+    return query;
+  }
+
   static queryFilter(
     query: AnyQueryBuilder,
     filter: UserGameFilter
   ): AnyQueryBuilder {
+
+    query = this.joinForFilter(query, filter);
+
     if (filter?.ids) {
       query = query.whereIn(`${this.tableName}.id`, filter?.ids);
     }
@@ -38,6 +60,14 @@ export class UserGameRepository
         filter?.experiences
       );
     }
+    if (filter?.search_text) {
+      query = query.where(
+        raw('LOWER(??)', "user.name"),
+        "like",
+        `%${filter.search_text.toLowerCase()}%`
+      );
+    }
+
     return query;
   }
 
