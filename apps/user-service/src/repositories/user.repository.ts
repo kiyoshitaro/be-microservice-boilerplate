@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserModel } from '../models';
 import { IUserRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection } from 'objection';
-import { UserFilter } from '@microservice-platform/user-service/filters';
+import { UserFilter } from '@microservice-platform/shared/filters/user-service';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
 
 @Injectable()

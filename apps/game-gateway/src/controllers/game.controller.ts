@@ -2,7 +2,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Inject, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ClientAppProxy } from '@microservice-platform/shared/microservices';
 import { GameValidationPipe } from '../validators';
-import { GetGamesQueryDto } from '../dtos';
+import { GetGamesQueryDto, GetUserGamesQueryDto } from '../dtos';
 
 @ApiTags('game-gateway')
 @Controller('games')
@@ -10,17 +10,15 @@ export class GameController {
   constructor(
     @Inject('GAME_SERVICE')
     private readonly gameService: ClientAppProxy,
+
+    @Inject('USER_SERVICE')
+    private readonly userService: ClientAppProxy,
+
   ) { }
   @Get('/')
   public async getPagingGames(@Query(GameValidationPipe) query: GetGamesQueryDto): Promise<any> {
     const res = await this.gameService.sendAwait('get_paging_game', {
-      filters: {
-        search_text: query.search_text,
-        limit: query.limit,
-        page: query.page,
-        order_by: query.order_by,
-        sort_by: query.sort_by
-      },
+      filters: query,
       include: '',
       isPagination: true,
     });
@@ -32,4 +30,20 @@ export class GameController {
     const res = await this.gameService.sendAwait('get_game_by_id', { id, include: "game_info" });
     return res
   }
+
+  @Get(':id/user-games')
+  public async getUserGame(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Query() query: GetUserGamesQueryDto
+  ): Promise<any> {
+    return await this.userService.sendAwait('get_user_games', {
+      filters: {
+        ...query,
+        is_pagination: Boolean(query.limit && query.page),
+        user_ids: [id],
+      },
+      include: 'user',
+    });
+  }
+
 }

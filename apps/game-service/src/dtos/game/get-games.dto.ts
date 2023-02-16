@@ -1,4 +1,4 @@
-import { GameFilter } from '@microservice-platform/game-service/filters';
+import { GameFilter } from '@microservice-platform/shared/filters/game-service';
 import { IncludeDto } from '@microservice-platform/shared/dtos';
 import { IntersectionType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';

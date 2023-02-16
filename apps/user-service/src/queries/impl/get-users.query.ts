@@ -1,5 +1,5 @@
 import { BaseQuery } from '@microservice-platform/user-service/queries/query';
-import { UserFilter } from '@microservice-platform/user-service/filters';
+import { UserFilter } from '@microservice-platform/shared/filters/user-service';
 
 export class GetUsersQuery extends BaseQuery {
   constructor(

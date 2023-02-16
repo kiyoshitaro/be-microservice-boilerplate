@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GameFilter } from '@microservice-platform/game-service/filters';
+import { GameFilter } from '@microservice-platform/shared/filters/game-service';
 import { Service } from '@microservice-platform/game-service/services/service';
 import { GetGamesPaginationQuery, GetGamesQuery } from '@microservice-platform/game-service/queries/impl';
 import { CreateGameCommand } from '@microservice-platform/game-service/commands/impl';

@@ -14,7 +14,7 @@ class UserGameModel extends BaseModel {
   deleted_at?: Date | null;
 
   static useUUID = true;
-  owner: UserModel;
+  user: UserModel;
 
   static jsonSchema = {
     type: 'object',
@@ -35,7 +35,7 @@ class UserGameModel extends BaseModel {
 export default UserGameModel;
 
 UserGameModel.relationMappings = {
-  owner: {
+  user: {
     relation: BaseModel.BelongsToOneRelation,
     modelClass: () => UserModel,
     join: {

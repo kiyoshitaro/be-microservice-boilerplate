@@ -6,7 +6,6 @@ import { REPOSITORIES } from '@microservice-platform/game-service/constants';
 import {
   GameInfoRepository,
   GameRepository,
-  GameTokenRepository,
 } from '@microservice-platform/game-service/repositories';
 import * as Transformer from '@microservice-platform/game-service/transformers';
 import { ObjectionModule } from '@microservice-platform/shared/objection';
@@ -33,10 +32,6 @@ const repositories = [
   {
     provide: REPOSITORIES.GAME_INFO_REPOSITORY,
     useClass: GameInfoRepository,
-  },
-  {
-    provide: REPOSITORIES.GAME_TOKEN_REPOSITORY,
-    useClass: GameTokenRepository,
   },
 ];
 

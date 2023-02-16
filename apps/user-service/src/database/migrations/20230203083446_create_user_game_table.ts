@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('game_id').notNullable();
     table.unique(['user_id', 'game_id']);
     table.integer('level').defaultTo(1);
-    table.bigInteger('experience').defaultTo(0);
+    table.integer('experience').defaultTo(0);
     table.timestamp('created_at').nullable().defaultTo(knex.fn.now());
     table.timestamp('updated_at').nullable().defaultTo(knex.fn.now());
     table.timestamp('deleted_at').nullable();

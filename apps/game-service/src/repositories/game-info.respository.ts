@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { GameInfoModel } from '../models';
 import { IGameInfoRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection } from 'objection';
-import { GameInfoFilter } from '@microservice-platform/game-service/filters';
+import { GameInfoFilter } from '@microservice-platform/shared/filters/game-service';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
 
 @Injectable()

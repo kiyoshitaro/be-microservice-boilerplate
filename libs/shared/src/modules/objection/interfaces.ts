@@ -94,5 +94,5 @@ export class BaseFilter {
   @IsString()
   @IsIn(Object.values(ESortBy))
   @RequireWith(['order_by'])
-  sort_by?: string;
+  sort_by?: ESortBy;
 }

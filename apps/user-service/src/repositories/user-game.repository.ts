@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserGameModel } from '../models';
 import { IUserGameRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection } from 'objection';
-import { UserGameFilter } from '@microservice-platform/user-service/filters';
+import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
 
 @Injectable()
@@ -52,4 +52,20 @@ export class UserGameRepository
     );
     return query;
   }
+
+  async listPaginate(
+    filter?: UserGameFilter,
+  ): Promise<{ items: UserGameModel[]; pagination: Record<string, any> }> {
+    const filterPagination = { ...filter };
+    delete filterPagination.page;
+    delete filterPagination.limit;
+    let query = UserGameRepository.queryFilter(
+      //@ts-ignore
+      this.query().whereNotDeleted(),
+      filter
+    );
+    query = UserGameRepository.baseQueryFilter(query, filter);
+    return super.paginate(query, filter?.page, filter?.limit);
+  }
+
 }

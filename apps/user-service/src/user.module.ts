@@ -3,7 +3,7 @@ import { UserController } from '@microservice-platform/user-service/controllers'
 import { UserService } from '@microservice-platform/user-service/services';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { REPOSITORIES } from '@microservice-platform/user-service/constants';
-import { UserRepository } from '@microservice-platform/user-service/repositories';
+import { UserGameRepository, UserRepository } from '@microservice-platform/user-service/repositories';
 import * as Transformer from '@microservice-platform/user-service/transformers';
 import { ObjectionModule } from '@microservice-platform/shared/objection';
 import * as Command from '@microservice-platform/user-service/commands/handlers';
@@ -18,8 +18,6 @@ import { configEventPublisher } from '@microservice-platform/user-service/config
 const transformers = [
   Transformer.UserTransformer,
   Transformer.UserGameTransformer,
-  Transformer.UserItemTransformer,
-  Transformer.UserTokenTransformer,
 ];
 
 const repositories = [
@@ -27,11 +25,15 @@ const repositories = [
     provide: REPOSITORIES.USER_REPOSITORY,
     useClass: UserRepository,
   },
+  {
+    provide: REPOSITORIES.USER_GAME_REPOSITORY,
+    useClass: UserGameRepository,
+  },
 ];
 
 const commands = [Command.CreateUserHandler];
 
-const queries = [Query.GetUsersHandler, Query.GetUserHandler];
+const queries = [Query.GetUsersHandler, Query.GetUserHandler, Query.GetUserGameHandler];
 
 const eventHandlers = [EventHandler.UserCreatedHandler];
 

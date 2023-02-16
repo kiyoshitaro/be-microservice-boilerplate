@@ -41,6 +41,9 @@
       "@microservice-platform/shared/objection": [
         "libs/shared/src/modules/objection/index.ts"
       ],
+      "@microservice-platform/shared/validator": [
+        "libs/shared/src/validator/index.ts"
+      ],
       "@microservice-platform/shared/exceptions": [
         "libs/shared/src/exceptions/index.ts"
       ],
@@ -70,6 +73,9 @@
       ],
       "@microservice-platform/shared/configs": [
         "libs/shared/src/configs/index.ts"
+      ],
+      "@microservice-platform/shared/filters/*": [
+        "libs/shared/src/filters/*"
       ],
       "@microservice-platform/public-api-gateway/*": [
         "apps/public-api-gateway/src/*"

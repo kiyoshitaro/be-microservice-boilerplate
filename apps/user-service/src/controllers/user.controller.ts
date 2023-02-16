@@ -1,12 +1,13 @@
 import { UserService } from '@microservice-platform/user-service/services';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserFilter } from '@microservice-platform/user-service/filters';
+import { UserFilter } from '@microservice-platform/shared/filters/user-service';
 import { Controller, HttpStatus } from '@nestjs/common';
 import {
   CreateUserDto,
   GetUserDto,
   ServiceResponseDto,
 } from '@microservice-platform/shared/dtos';
+import { GetUserGameDto } from '../dtos';
 
 @Controller('users')
 export class UserController {
@@ -20,6 +21,22 @@ export class UserController {
       data: result,
     };
   }
+
+  @MessagePattern('get_user_games')
+  async getUserGame(@Payload() data: GetUserGameDto): Promise<ServiceResponseDto> {
+    const { filters, include } = data;
+    console.log("🚀 ~ file: user.controller.ts:28 ~ UserController ~ getUserGame ~ filters", filters)
+    const result = await this.userService.getUserGames(
+      filters,
+      include,
+    );
+    return {
+      statusCode: HttpStatus.OK,
+      data: result,
+    };
+  }
+
+
 
   @MessagePattern('get_user_by_id')
   async get(@Payload() data: GetUserDto): Promise<ServiceResponseDto> {

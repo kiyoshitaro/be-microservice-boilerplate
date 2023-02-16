@@ -1,5 +1,5 @@
 import { BaseQuery } from '@microservice-platform/game-service/queries/query';
-import { GameFilter } from '@microservice-platform/game-service/filters';
+import { GameFilter } from '@microservice-platform/shared/filters/game-service';
 
 export class GetGamesPaginationQuery extends BaseQuery {
   constructor(
