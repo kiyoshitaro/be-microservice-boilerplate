@@ -1,6 +1,7 @@
 import { BaseModel } from './base-model';
 import { FetchGraphOptions, PartialModelObject } from 'objection';
 import {
+  IsArray,
   IsIn,
   IsNumber,
   IsOptional,
@@ -95,4 +96,15 @@ export class BaseFilter {
   @IsIn(Object.values(ESortBy))
   @RequireWith(['order_by'])
   sort_by?: ESortBy;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @RequireWith(['search_text'])
+  search_by?: string[];
+
+  @IsOptional()
+  @IsString()
+  @RequireWith(['search_by'])
+  search_text?: string;
 }

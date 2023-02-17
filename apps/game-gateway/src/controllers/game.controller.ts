@@ -19,7 +19,10 @@ export class GameController {
   @Get('/')
   public async getPagingGames(@Query(GameValidationPipe) query: GetGamesQueryDto): Promise<any> {
     const res = await this.gameService.sendAwait('get_paging_game', {
-      filters: query,
+      filters: {
+        ...query,
+        is_pagination: Boolean(query.limit && query.page),
+      },
       include: '',
       isPagination: true,
     });
@@ -32,18 +35,19 @@ export class GameController {
     return res
   }
 
+  // @Get('user-games')
   @Get(':id/user-games')
   public async getUserGame(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Query() query: GetUserGamesQueryDto
   ): Promise<any> {
-    query = convertQueryDtoToFilter(query, null, { amount: 'gameFilter' });
+    query = convertQueryDtoToFilter(query, null, {}, { 'userFilter': ['name', "email", "username"] });
 
     return await this.userService.sendAwait('get_user_games', {
       filters: {
         ...query,
         is_pagination: Boolean(query.limit && query.page),
-        user_ids: [id],
+        // user_ids: [id],
       },
       include: 'user',
     });

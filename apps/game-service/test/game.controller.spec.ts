@@ -27,7 +27,6 @@ describe('game-service:game controller', () => {
     it(`Get game detail with right id but not contain game-info`, async () => {
       const response: any = await testService(client
         .send('get_game_by_id', { id: trueId }));
-      console.log("🚀 ~ file: game.controller.spec.ts:30 ~ it ~ response", response)
       expect(response.statusCode).toBe(200);
       expect(response.data.id).toEqual(trueId);
       expect(response.data).toHaveProperty("name");

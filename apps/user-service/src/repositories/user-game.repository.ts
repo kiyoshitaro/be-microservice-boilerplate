@@ -4,6 +4,7 @@ import { IUserGameRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
 import { InjectModel, Repository } from '@microservice-platform/shared/objection';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserGameRepository
@@ -28,9 +29,10 @@ export class UserGameRepository
   }
 
   static joinForFilter(query: AnyQueryBuilder, filter: UserGameFilter): AnyQueryBuilder {
-    if (filter?.search_text) {
+    if (filter?.userFilter) {
       // user is name of relationMapping
-      return this.joinTable(query, "user");
+      query = this.joinTable(query, "user");
+      return UserRepository.queryFilter(query, filter.userFilter);
     }
     return query;
   }
@@ -60,14 +62,17 @@ export class UserGameRepository
         filter?.experiences
       );
     }
-    if (filter?.search_text) {
-      query = query.where(
-        raw('LOWER(??)', "user.name"),
-        "like",
-        `%${filter.search_text.toLowerCase()}%`
-      );
+    if (filter?.search_by) {
+      for (const search_field of filter?.search_by) {
+        query = query.where(builder => {
+          builder.orWhere(
+            raw('LOWER(??)', `${search_field}`),
+            "like",
+            `%${filter?.search_text.toLowerCase()}%`
+          );
+        });
+      }
     }
-
     return query;
   }
 

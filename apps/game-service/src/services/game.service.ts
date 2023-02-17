@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GameFilter } from '@microservice-platform/shared/filters/game-service';
 import { Service } from '@microservice-platform/game-service/services/service';
-import { GetGamesPaginationQuery, GetGamesQuery } from '@microservice-platform/game-service/queries/impl';
+import { GetGamesQuery } from '@microservice-platform/game-service/queries/impl';
 import { CreateGameCommand } from '@microservice-platform/game-service/commands/impl';
 import { GetGameQuery } from '@microservice-platform/game-service/queries/impl';
 import { CreateGameDto } from '@microservice-platform/shared/dtos';
@@ -18,14 +18,7 @@ export class GameService extends Service {
   async getPagingGames(
     filters: GameFilter,
     include: string,
-    isPagination: boolean
   ): Promise<Record<string, any>> {
-    if (isPagination) {
-      return this.queryBus.execute(
-        new GetGamesPaginationQuery(filters, include)
-      );
-    }
-
     return this.queryBus.execute(new GetGamesQuery(filters, include));
   }
 

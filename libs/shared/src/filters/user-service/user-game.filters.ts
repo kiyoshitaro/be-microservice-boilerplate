@@ -1,9 +1,9 @@
-import { RequireWith, TransformArrayNumber } from "@microservice-platform/shared/validator";
+import { TransformArrayNumber } from "@microservice-platform/shared/validator";
 import { BaseFilter } from "@microservice-platform/shared/objection";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsArray, IsBoolean, IsIn, IsNumber, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { GameFilter } from "../game-service";
+import { UserFilter } from "./user.filters";
 
 export class UserGameFilter extends BaseFilter {
   @ApiProperty({
@@ -53,19 +53,6 @@ export class UserGameFilter extends BaseFilter {
   @TransformArrayNumber()
   experiences?: number[];
 
-
-  @ApiPropertyOptional({
-    example: 'id',
-    nullable: true,
-    enum: ["level", "experience", "created_at"]
-  })
-  @IsOptional()
-  @IsString()
-  @RequireWith(['sort_by'])
-  @IsIn(["level", "experience", "created_at"])
-  order_by?: string;
-
-
   //USer for other gateway modifiy 
   @IsOptional()
   @IsBoolean()
@@ -75,6 +62,6 @@ export class UserGameFilter extends BaseFilter {
   // Nest with related service filter 
   @IsOptional()
   @ValidateNested()
-  @Type(() => GameFilter)
-  gameFilter?: GameFilter;
+  @Type(() => UserFilter)
+  userFilter?: UserFilter;
 }

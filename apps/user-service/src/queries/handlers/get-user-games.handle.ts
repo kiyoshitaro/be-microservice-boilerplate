@@ -29,9 +29,9 @@ export class GetUserGameHandler
         pagination: modelsPagination.pagination,
       };
     } else {
-      let modelsList = await this.repository.list(filter);
-      modelsList = await this.repository.with(modelsList, include);
-      return this.transformer.collection(modelsList, { include });
+      let models = await this.repository.list(filter);
+      models = await this.repository.with(models, include);
+      return this.transformer.collection(models, { include });
     }
   }
 }

@@ -16,8 +16,8 @@ export class GameController {
   async getData(
     @Payload() data?: GetGamesDto
   ): Promise<ServiceResponseDto> {
-    const { filters, include, isPagination } = data;
-    const result = await this.gameService.getPagingGames(filters, include, isPagination);
+    const { filters, include } = data;
+    const result = await this.gameService.getPagingGames(filters, include);
     return {
       statusCode: HttpStatus.OK,
       data: result,

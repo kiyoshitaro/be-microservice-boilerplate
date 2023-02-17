@@ -16,6 +16,7 @@ export class GameRepository
     return GameModel.tableName;
   }
 
+
   static queryFilter(
     query: AnyQueryBuilder,
     filter: GameFilter
@@ -26,12 +27,16 @@ export class GameRepository
     if (filter?.client_ids) {
       query = query.whereIn(`${this.tableName}.client_id`, filter?.client_ids);
     }
-    if (filter?.search_text) {
-      query = query.where(
-        raw('lower("name")'),
-        "like",
-        `%${filter.search_text.toLowerCase()}%`
-      );
+    if (filter?.search_by) {
+      query = query.where(builder => {
+        for (const search_field of filter?.search_by) {
+          builder.orWhere(
+            raw('LOWER(??)', `${search_field}`),
+            "like",
+            `%${filter?.search_text.toLowerCase()}%`
+          );
+        }
+      });
     }
     return query;
   }
