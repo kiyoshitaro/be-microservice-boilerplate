@@ -66,3 +66,6 @@ npm run test:api game-gateway
 connect ....
 npm run test:api game-service
 ``` 
+
+- **CODE NOTE**: 
+  - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
