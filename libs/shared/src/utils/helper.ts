@@ -144,3 +144,10 @@ export function convertStringToObject(
 
   return result;
 }
+
+export function formatString(format: string, ...args: any[]): string {
+  return format.replace(/{(\d+)}/g, (match, index) => {
+    const value = args[index];
+    return value !== undefined ? value : match;
+  });
+}

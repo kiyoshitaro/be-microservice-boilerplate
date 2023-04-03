@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import { GetGamesQueryDto } from '../dtos';
+import { GetGamesQueryDto } from '../../dtos';
 
 @Injectable()
 export class GameValidationPipe implements PipeTransform<any> {

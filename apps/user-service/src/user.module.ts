@@ -14,6 +14,7 @@ import { configDb } from '@microservice-platform/user-service/configs/database';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/user-service/configs/event-publisher';
+import { GameSagas } from './sagas';
 
 const transformers = [
   Transformer.UserTransformer,
@@ -31,13 +32,15 @@ const repositories = [
   },
 ];
 
-const commands = [Command.CreateUserHandler];
+const commands = [Command.CreateUserHandler, Command.AddGameToUserHandler];
 
 const queries = [Query.GetUsersHandler, Query.GetUserHandler, Query.GetUserGameHandler];
 
 const eventHandlers = [EventHandler.UserCreatedHandler];
 
-const events = [Event.UserCreatedEvent];
+const events = [Event.UserCreatedEvent, Event.AddGameToUserEvent];
+
+const sagas = [GameSagas];
 
 @Module({
   imports: [
@@ -69,6 +72,7 @@ const events = [Event.UserCreatedEvent];
     ...commands,
     ...queries,
     ...eventHandlers,
+    ...sagas,
   ],
 })
 export class UserModule { }

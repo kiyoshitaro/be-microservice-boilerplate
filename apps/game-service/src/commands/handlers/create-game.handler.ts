@@ -21,18 +21,12 @@ export class CreateGameHandler
   @Inject(EventBus)
   private eventBus: EventBus;
 
-  @Inject(MEventPublisher)
-  private mEventPublisher: MEventPublisher;
 
   async execute(command: CreateGameCommand): Promise<GameModel> {
-    const { description, test_column } = command.data;
-    const result = await this.repository.create({ description, test_column });
-    this.eventBus.publish(new GameCreatedEvent(result, result.id.toString()));
-    //Move this code to another service (this code use to demo)
-    this.mEventPublisher.publish('GameCreatedEvent', {
-      id: result.id,
-      game: result,
-    });
+    const { client_id, logo_url, name, cover_url } = command.data;
+    const result = await this.repository.create({ client_id, logo_url, name, cover_url });
+    this.eventBus.publish(new GameCreatedEvent(result));
+
     return result;
   }
 }

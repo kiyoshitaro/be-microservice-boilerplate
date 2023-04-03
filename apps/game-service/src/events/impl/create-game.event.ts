@@ -1,16 +1,10 @@
 import { IEvent } from '@nestjs/cqrs';
-import { GameModel } from '@microservice-platform/game-service/models';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { CreateGameDto } from '@microservice-platform/shared/dtos';
 
 export class GameCreatedEvent implements IEvent {
-  public readonly game: GameModel;
+  public readonly data: CreateGameDto;
 
-  @IsInt()
-  @IsNotEmpty()
-  public readonly id: string;
-
-  constructor(game: GameModel, id: string) {
-    this.game = game;
-    this.id = id;
+  constructor(data: CreateGameDto) {
+    this.data = data;
   }
 }

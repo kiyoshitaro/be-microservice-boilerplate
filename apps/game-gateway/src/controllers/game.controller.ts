@@ -1,9 +1,14 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Inject, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ClientAppProxy } from '@microservice-platform/shared/microservices';
-import { GameValidationPipe } from '../validators';
+import { CreateGameValidationPipe, GameValidationPipe } from '../validators';
 import { GetGamesQueryDto, GetUserGamesQueryDto } from '../dtos';
 import { convertQueryDtoToFilter } from '@microservice-platform/shared/utils';
+import {
+  CreateGameDto,
+  GetByIdDto,
+  ServiceResponseDto,
+} from '@microservice-platform/shared/dtos';
 
 @ApiTags('game-gateway')
 @Controller('games')
@@ -52,5 +57,14 @@ export class GameController {
       include: 'user',
     });
   }
+
+  @Post('/create')
+  public async createDepositTokenTransaction(
+    @Body(CreateGameValidationPipe) data: CreateGameDto
+  ): Promise<ServiceResponseDto> {
+    const result = await this.gameService.sendAwait('create_game', data);
+    return result;
+  }
+
 
 }

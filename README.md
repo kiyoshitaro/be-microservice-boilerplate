@@ -71,3 +71,17 @@ npm run test:api game-service
   - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
 
 MicroserviceExceptionFilter: should throw error not use new InternalError()
+
+Lint fix
+
+Oauth, auth
+
+validate+dto-query+error-template
+
+central-event-interservice
+
+transport event kafka, redis
+
+sagas
+
+auto-detect-event-from-decorator, 
