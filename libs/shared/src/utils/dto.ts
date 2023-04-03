@@ -11,21 +11,13 @@ export const convertQueryDtoToFilter = (
     Object.keys(mappingField).forEach((key) => {
       _.set(dataQuery, mappingField[key], query[key]);
       const parentArr = mappingField[key].split('.');
-      parentArr.pop()
-      const parent = parentArr.join('.')
+      parentArr.pop();
+      const parent = parentArr.join('.');
       if (query.limit) {
-        _.set(
-          dataQuery,
-          parent + '.limit',
-          query.limit
-        );
+        _.set(dataQuery, parent + '.limit', query.limit);
       }
       if (query.page) {
-        _.set(
-          dataQuery,
-          parent + '.page',
-          query.page
-        );
+        _.set(dataQuery, parent + '.page', query.page);
       }
       delete dataQuery[key];
     });
@@ -68,23 +60,17 @@ export const convertQueryDtoToFilter = (
     let setSearchQuery = new Set(query.search_by);
     Object.keys(mappingSearchByValueToFilter).forEach((searchByValue) => {
       let searchBy = new Set();
-      for (const newSearchQuery of mappingSearchByValueToFilter[searchByValue]) {
+      for (const newSearchQuery of mappingSearchByValueToFilter[
+        searchByValue
+      ]) {
         if (setSearchQuery.has(newSearchQuery)) {
           setSearchQuery.delete(newSearchQuery);
-          searchBy.add(newSearchQuery)
+          searchBy.add(newSearchQuery);
         }
       }
       if (searchBy.size) {
-        _.set(
-          dataQuery,
-          searchByValue + '.search_by',
-          Array.from(searchBy)
-        );
-        _.set(
-          dataQuery,
-          searchByValue + '.search_text',
-          query.search_text
-        );
+        _.set(dataQuery, searchByValue + '.search_by', Array.from(searchBy));
+        _.set(dataQuery, searchByValue + '.search_text', query.search_text);
       }
     });
     if (setSearchQuery.size) {

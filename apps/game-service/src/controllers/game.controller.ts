@@ -10,12 +10,10 @@ import { GetGamesDto } from '../dtos';
 
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) { }
+  constructor(private readonly gameService: GameService) {}
 
   @MessagePattern('get_paging_game')
-  async getData(
-    @Payload() data?: GetGamesDto
-  ): Promise<ServiceResponseDto> {
+  async getData(@Payload() data?: GetGamesDto): Promise<ServiceResponseDto> {
     const { filters, include } = data;
     const result = await this.gameService.getPagingGames(filters, include);
     return {
@@ -25,13 +23,15 @@ export class GameController {
   }
 
   @MessagePattern('get_game_by_id')
-  async getGameDetail(@Payload() data: GetByIdDto): Promise<ServiceResponseDto> {
+  async getGameDetail(
+    @Payload() data: GetByIdDto
+  ): Promise<ServiceResponseDto> {
     const { id, include } = data;
     const res = await this.gameService.findById(id, include);
     return {
       statusCode: HttpStatus.OK,
-      data: res
-    }
+      data: res,
+    };
   }
 
   @MessagePattern('create_game')

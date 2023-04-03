@@ -3,12 +3,16 @@ import { UserModel } from '../models';
 import { IUserRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { UserFilter } from '@microservice-platform/shared/filters/user-service';
-import { InjectModel, Repository } from '@microservice-platform/shared/objection';
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 
 @Injectable()
 export class UserRepository
   extends Repository<UserModel>
-  implements IUserRepository {
+  implements IUserRepository
+{
   @InjectModel(UserModel)
   model: UserModel;
 
@@ -24,11 +28,11 @@ export class UserRepository
       query = query.whereIn(`${this.tableName}.id`, filter?.ids);
     }
     if (filter?.search_by) {
-      query = query.where(builder => {
+      query = query.where((builder) => {
         for (const search_field of filter?.search_by) {
           builder.orWhere(
             raw('LOWER(??)', `${search_field}`),
-            "like",
+            'like',
             `%${filter?.search_text.toLowerCase()}%`
           );
         }

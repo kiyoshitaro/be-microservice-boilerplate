@@ -16,7 +16,7 @@ async function bootstrap() {
   );
   // NOTE: catch exception from service out
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.useGlobalFilters(new MicroserviceExceptionFilter())
+  app.useGlobalFilters(new MicroserviceExceptionFilter());
   await app.listen();
   Logger.log(`🚀 Game service is running at port ${gameConfig.options.port}`);
 }

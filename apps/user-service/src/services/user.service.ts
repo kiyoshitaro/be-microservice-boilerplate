@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UserFilter, UserGameFilter } from '@microservice-platform/shared/filters/user-service';
+import {
+  UserFilter,
+  UserGameFilter,
+} from '@microservice-platform/shared/filters/user-service';
 import { Service } from '@microservice-platform/user-service/services/service';
-import { GetUserGameQuery, GetUsersQuery } from '@microservice-platform/user-service/queries/impl';
+import {
+  GetUserGameQuery,
+  GetUsersQuery,
+} from '@microservice-platform/user-service/queries/impl';
 import { CreateUserCommand } from '@microservice-platform/user-service/commands/impl';
 import { GetUserQuery } from '@microservice-platform/user-service/queries/impl';
 import { CreateUserDto } from '@microservice-platform/shared/dtos';
@@ -22,7 +28,7 @@ export class UserService extends Service {
 
   async getUserGames(
     filters: UserGameFilter,
-    include: string,
+    include: string
   ): Promise<Record<string, any>> {
     return this.queryBus.execute(new GetUserGameQuery(filters, include));
   }

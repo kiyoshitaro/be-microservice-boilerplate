@@ -18,10 +18,7 @@ export class GetGamesHandler implements IQueryHandler<GetGamesQuery> {
     if (filter.is_pagination) {
       delete filter.is_pagination;
       let modelsPagination = await this.repository.listPaginate(filter);
-      let models = await this.repository.with(
-        modelsPagination.items,
-        include
-      );
+      let models = await this.repository.with(modelsPagination.items, include);
       return {
         items: await this.transformer.collection(models, { include }),
         pagination: modelsPagination.pagination,

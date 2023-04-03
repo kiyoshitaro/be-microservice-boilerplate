@@ -11,7 +11,7 @@ import { GetUserGameDto } from '../dtos';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @MessagePattern('get_all')
   async getData(filters?: UserFilter): Promise<ServiceResponseDto> {
@@ -23,19 +23,16 @@ export class UserController {
   }
 
   @MessagePattern('get_user_games')
-  async getUserGame(@Payload() data: GetUserGameDto): Promise<ServiceResponseDto> {
+  async getUserGame(
+    @Payload() data: GetUserGameDto
+  ): Promise<ServiceResponseDto> {
     const { filters, include } = data;
-    const result = await this.userService.getUserGames(
-      filters,
-      include,
-    );
+    const result = await this.userService.getUserGames(filters, include);
     return {
       statusCode: HttpStatus.OK,
       data: result,
     };
   }
-
-
 
   @MessagePattern('get_user_by_id')
   async get(@Payload() data: GetUserDto): Promise<ServiceResponseDto> {

@@ -11,7 +11,7 @@ export class UserGameTransformer extends Transformer<UserGameModel> {
 
   constructor(
     @Inject(UserTransformer)
-    private readonly userTransformer: UserTransformer,
+    private readonly userTransformer: UserTransformer
   ) {
     super();
   }

@@ -3,20 +3,23 @@ import { UserGameModel } from '../models';
 import { IUserGameRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
-import { InjectModel, Repository } from '@microservice-platform/shared/objection';
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserGameRepository
   extends Repository<UserGameModel>
-  implements IUserGameRepository {
+  implements IUserGameRepository
+{
   @InjectModel(UserGameModel)
   model: UserGameModel;
 
   static get tableName() {
     return UserGameModel.tableName;
   }
-
 
   static joinTable(query: AnyQueryBuilder, relation: string): AnyQueryBuilder {
     if (UserGameModel.relationMappings.hasOwnProperty(relation)) {
@@ -28,10 +31,13 @@ export class UserGameRepository
     }
   }
 
-  static joinForFilter(query: AnyQueryBuilder, filter: UserGameFilter): AnyQueryBuilder {
+  static joinForFilter(
+    query: AnyQueryBuilder,
+    filter: UserGameFilter
+  ): AnyQueryBuilder {
     if (filter?.userFilter) {
       // user is name of relationMapping
-      query = this.joinTable(query, "user");
+      query = this.joinTable(query, 'user');
       return UserRepository.queryFilter(query, filter.userFilter);
     }
     return query;
@@ -41,7 +47,6 @@ export class UserGameRepository
     query: AnyQueryBuilder,
     filter: UserGameFilter
   ): AnyQueryBuilder {
-
     query = this.joinForFilter(query, filter);
 
     if (filter?.ids) {
@@ -64,10 +69,10 @@ export class UserGameRepository
     }
     if (filter?.search_by) {
       for (const search_field of filter?.search_by) {
-        query = query.where(builder => {
+        query = query.where((builder) => {
           builder.orWhere(
             raw('LOWER(??)', `${search_field}`),
-            "like",
+            'like',
             `%${filter?.search_text.toLowerCase()}%`
           );
         });
@@ -89,7 +94,7 @@ export class UserGameRepository
   }
 
   async listPaginate(
-    filter?: UserGameFilter,
+    filter?: UserGameFilter
   ): Promise<{ items: UserGameModel[]; pagination: Record<string, any> }> {
     const filterPagination = { ...filter };
     delete filterPagination.page;
@@ -102,5 +107,4 @@ export class UserGameRepository
     query = UserGameRepository.baseQueryFilter(query, filter);
     return super.paginate(query, filter?.page, filter?.limit);
   }
-
 }

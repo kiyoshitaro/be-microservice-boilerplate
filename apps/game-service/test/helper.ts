@@ -1,4 +1,4 @@
-import { firstValueFrom, Observable } from "rxjs";
+import { firstValueFrom, Observable } from 'rxjs';
 
 export const testService = async (promise: Observable<any>) => {
   try {
@@ -9,4 +9,4 @@ export const testService = async (promise: Observable<any>) => {
     }
     throw e;
   }
-}
+};

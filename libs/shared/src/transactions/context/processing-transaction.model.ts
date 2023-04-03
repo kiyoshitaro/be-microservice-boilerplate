@@ -4,7 +4,7 @@ import { TransactionContextModel } from './transaction-context.model';
 export class ProcessingTransactionModel {
   transactions: {
     [transactionId: string]: {
-      [modelName: string]: typeof TransactionContextModel['prototype'];
+      [modelName: string]: (typeof TransactionContextModel)['prototype'];
     };
   };
 

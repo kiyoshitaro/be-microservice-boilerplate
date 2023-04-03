@@ -26,7 +26,10 @@ export class AddGameToUserHandler
 
   async execute(command: AddGameToUserCommand): Promise<any> {
     // const { email, id } = command.data;
-    console.log("🚀 ~ file: add-game-to-user.handler.ts:29 ~ execute ~ command.data:", command.data)
+    console.log(
+      '🚀 ~ file: add-game-to-user.handler.ts:29 ~ execute ~ command.data:',
+      command.data
+    );
     // return await this.repository.create({ email, username: email, id });
   }
 }

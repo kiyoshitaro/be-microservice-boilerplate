@@ -11,6 +11,6 @@ export interface IUserGameRepository extends IRepository<UserGameModel> {
   ): Promise<UserGameModel[]>;
 
   listPaginate(
-    filter?: UserGameFilter,
+    filter?: UserGameFilter
   ): Promise<{ items: UserGameModel[]; pagination: Record<string, any> }>;
 }

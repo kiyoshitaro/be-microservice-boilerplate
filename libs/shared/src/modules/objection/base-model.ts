@@ -28,7 +28,7 @@ export class BaseModel extends Model {
   static useLimitInFirst = true;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  beforeInsert(): void { }
+  beforeInsert(): void {}
 
   $beforeInsert(queryContext) {
     super.$beforeInsert(queryContext);

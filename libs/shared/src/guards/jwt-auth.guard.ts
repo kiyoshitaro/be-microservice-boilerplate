@@ -9,7 +9,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
-    context.switchToHttp().getResponse().render()
+    context.switchToHttp().getResponse().render();
     return super.canActivate(context);
   }
 }

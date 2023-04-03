@@ -17,7 +17,7 @@ export class GameService extends Service {
 
   async getPagingGames(
     filters: GameFilter,
-    include: string,
+    include: string
   ): Promise<Record<string, any>> {
     return this.queryBus.execute(new GetGamesQuery(filters, include));
   }
@@ -27,10 +27,8 @@ export class GameService extends Service {
     return this.queryBus.execute(new GetGameQuery(id, include));
   }
 
-  async create(
-    data: CreateGameDto
-  ): Promise<Record<string, any>> {
-    console.log("🚀 ~ file: game.service.ts:33 ~ GameService ~ data:", data)
+  async create(data: CreateGameDto): Promise<Record<string, any>> {
+    console.log('🚀 ~ file: game.service.ts:33 ~ GameService ~ data:', data);
     const template = await this.commandBus.execute(new CreateGameCommand(data));
     return this.queryBus.execute(new GetGameQuery(template.id, 'detail'));
   }

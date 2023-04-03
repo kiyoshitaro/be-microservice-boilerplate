@@ -6,7 +6,6 @@ import { GameInfoTransformer } from './game-info.transformer';
 
 @Injectable()
 export class GameTransformer extends Transformer<GameModel> {
-
   // NOTE: Must define relationMappings of table here
   availableIncludes = ['game_info'];
   defaultIncludes = [];

@@ -3,19 +3,22 @@ import { GameModel } from '../models';
 import { IGameRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
 import { GameFilter } from '@microservice-platform/shared/filters/game-service';
-import { InjectModel, Repository } from '@microservice-platform/shared/objection';
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 
 @Injectable()
 export class GameRepository
   extends Repository<GameModel>
-  implements IGameRepository {
+  implements IGameRepository
+{
   @InjectModel(GameModel)
   model: GameModel;
 
   static get tableName() {
     return GameModel.tableName;
   }
-
 
   static queryFilter(
     query: AnyQueryBuilder,
@@ -28,11 +31,11 @@ export class GameRepository
       query = query.whereIn(`${this.tableName}.client_id`, filter?.client_ids);
     }
     if (filter?.search_by) {
-      query = query.where(builder => {
+      query = query.where((builder) => {
         for (const search_field of filter?.search_by) {
           builder.orWhere(
             raw('LOWER(??)', `${search_field}`),
-            "like",
+            'like',
             `%${filter?.search_text.toLowerCase()}%`
           );
         }
@@ -65,7 +68,6 @@ export class GameRepository
     return super.paginate(query, filter?.page, filter?.limit);
   }
 
-
   async countGame(filter: GameFilter): Promise<number> {
     let query = GameRepository.queryFilter(
       this.query().whereNotDeleted(),
@@ -73,9 +75,8 @@ export class GameRepository
     );
     //@ts-ignore
     const countGames: { num_games: number }[] = await query.select(
-      raw("count(id) as num_games")
+      raw('count(id) as num_games')
     );
     return countGames[0].num_games;
   }
-
 }

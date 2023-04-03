@@ -3,12 +3,16 @@ import { GameInfoModel } from '../models';
 import { IGameInfoRepository } from './interfaces';
 import { AnyQueryBuilder, OrderByDirection } from 'objection';
 import { GameInfoFilter } from '@microservice-platform/shared/filters/game-service';
-import { InjectModel, Repository } from '@microservice-platform/shared/objection';
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 
 @Injectable()
 export class GameInfoRepository
   extends Repository<GameInfoModel>
-  implements IGameInfoRepository {
+  implements IGameInfoRepository
+{
   @InjectModel(GameInfoModel)
   model: GameInfoModel;
 

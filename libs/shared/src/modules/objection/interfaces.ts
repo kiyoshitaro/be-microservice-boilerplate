@@ -45,12 +45,12 @@ export interface NestedLoadRelSchema {
   $relation?: string;
   $modify?: string[];
   [key: string]:
-  | boolean
-  | number
-  | string
-  | string[]
-  | NestedLoadRelSchema
-  | undefined;
+    | boolean
+    | number
+    | string
+    | string[]
+    | NestedLoadRelSchema
+    | undefined;
 }
 
 export interface LoadRelSchema {

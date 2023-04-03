@@ -1,5 +1,5 @@
-import { BaseFilter } from "@microservice-platform/shared/objection";
-import { IsOptional, IsUUID } from "class-validator";
+import { BaseFilter } from '@microservice-platform/shared/objection';
+import { IsOptional, IsUUID } from 'class-validator';
 
 export class UserFilter extends BaseFilter {
   @IsOptional()

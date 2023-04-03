@@ -8,4 +8,4 @@ import { ConfigAppService } from '@microservice-platform/shared/configs';
   controllers: [HealthController],
   providers: [ConfigAppService],
 })
-export class HealthModule { }
+export class HealthModule {}

@@ -6,9 +6,7 @@ import { REPOSITORIES } from '@microservice-platform/user-service/constants';
 import { UserGameTransformer } from '@microservice-platform/user-service/transformers';
 
 @QueryHandler(GetUserGameQuery)
-export class GetUserGameHandler
-  implements IQueryHandler<GetUserGameQuery>
-{
+export class GetUserGameHandler implements IQueryHandler<GetUserGameQuery> {
   @Inject(REPOSITORIES.USER_GAME_REPOSITORY)
   private repository: IUserGameRepository;
 

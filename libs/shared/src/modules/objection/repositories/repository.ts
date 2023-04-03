@@ -86,9 +86,9 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     for (const key in inputs) {
       Array.isArray(inputs[key] as unknown as any)
         ? query.whereIn(
-          key,
-          inputs[key] as unknown as Expression<PrimitiveValue>[]
-        )
+            key,
+            inputs[key] as unknown as Expression<PrimitiveValue>[]
+          )
         : query.where(key, inputs[key] as unknown as string);
     }
     const models = await query;
@@ -325,7 +325,6 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
       transaction: dbConnection,
     });
   }
-
 
   async findById(id: number | string): Promise<T> {
     return this.query().findById(id);

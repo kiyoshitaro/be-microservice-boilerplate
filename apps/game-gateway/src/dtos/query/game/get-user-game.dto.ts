@@ -1,5 +1,8 @@
 import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
-import { RequireWith, TransformArrayString } from '@microservice-platform/shared/validator';
+import {
+  RequireWith,
+  TransformArrayString,
+} from '@microservice-platform/shared/validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsIn, IsOptional, IsString } from 'class-validator';
 
@@ -8,13 +11,13 @@ export class GetUserGamesQueryDto extends UserGameFilter {
   @ApiPropertyOptional({
     nullable: true,
     isArray: true,
-    enum: ["name", "email", "username"]
+    enum: ['name', 'email', 'username'],
   })
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
   @RequireWith(['search_text'])
-  @IsIn(["name", "email", "username"], { each: true })
+  @IsIn(['name', 'email', 'username'], { each: true })
   @TransformArrayString()
   search_by?: string[];
 
@@ -31,12 +34,11 @@ export class GetUserGamesQueryDto extends UserGameFilter {
   @ApiPropertyOptional({
     example: 'id',
     nullable: true,
-    enum: ["level", "experience", "created_at"]
+    enum: ['level', 'experience', 'created_at'],
   })
   @IsOptional()
   @IsString()
   @RequireWith(['sort_by'])
-  @IsIn(["level", "experience", "created_at"])
+  @IsIn(['level', 'experience', 'created_at'])
   order_by?: string;
-
 }

@@ -27,4 +27,4 @@ import { HealthModule } from '@microservice-platform/game-user-gateway/health/he
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

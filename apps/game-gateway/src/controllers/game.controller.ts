@@ -1,5 +1,14 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Inject, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ClientAppProxy } from '@microservice-platform/shared/microservices';
 import { CreateGameValidationPipe, GameValidationPipe } from '../validators';
 import { GetGamesQueryDto, GetUserGamesQueryDto } from '../dtos';
@@ -18,11 +27,12 @@ export class GameController {
     private readonly gameService: ClientAppProxy,
 
     @Inject('USER_SERVICE')
-    private readonly userService: ClientAppProxy,
-
-  ) { }
+    private readonly userService: ClientAppProxy
+  ) {}
   @Get('/')
-  public async getPagingGames(@Query(GameValidationPipe) query: GetGamesQueryDto): Promise<any> {
+  public async getPagingGames(
+    @Query(GameValidationPipe) query: GetGamesQueryDto
+  ): Promise<any> {
     const res = await this.gameService.sendAwait('get_paging_game', {
       filters: {
         ...query,
@@ -35,9 +45,14 @@ export class GameController {
   }
 
   @Get(':id')
-  public async getGameDetail(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<any> {
-    const res = await this.gameService.sendAwait('get_game_by_id', { id, include: "game_info" });
-    return res
+  public async getGameDetail(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string
+  ): Promise<any> {
+    const res = await this.gameService.sendAwait('get_game_by_id', {
+      id,
+      include: 'game_info',
+    });
+    return res;
   }
 
   // @Get('user-games')
@@ -46,7 +61,12 @@ export class GameController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Query() query: GetUserGamesQueryDto
   ): Promise<any> {
-    query = convertQueryDtoToFilter(query, null, {}, { 'userFilter': ['name', "email", "username"] });
+    query = convertQueryDtoToFilter(
+      query,
+      null,
+      {},
+      { userFilter: ['name', 'email', 'username'] }
+    );
 
     return await this.userService.sendAwait('get_user_games', {
       filters: {
@@ -65,6 +85,4 @@ export class GameController {
     const result = await this.gameService.sendAwait('create_game', data);
     return result;
   }
-
-
 }

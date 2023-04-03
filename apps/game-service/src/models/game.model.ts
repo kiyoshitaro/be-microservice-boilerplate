@@ -1,7 +1,5 @@
 import { BaseModel } from '@microservice-platform/shared/objection';
-import {
-  GameInfoModel,
-} from '@microservice-platform/game-service/models';
+import { GameInfoModel } from '@microservice-platform/game-service/models';
 
 class GameModel extends BaseModel {
   static tableName = 'games';
