@@ -88,5 +88,6 @@ sagas
 auto-detect-event-from-decorator, notification-bus
 
 Kafka
+Bootstrap Server: kafka:9092,kafka:9093
 
 Logger, Cache
