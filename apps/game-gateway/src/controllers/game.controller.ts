@@ -55,7 +55,6 @@ export class GameController {
     return res;
   }
 
-  // @Get('user-games')
   @Get(':id/user-games')
   public async getUserGame(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
