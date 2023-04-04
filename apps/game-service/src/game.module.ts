@@ -57,7 +57,7 @@ const events = [Event.GameCreatedEvent];
       inject: [ConfigService],
     }),
     MicroserviceEventPublisherModule.forRootAsync({
-      events,
+      // events,
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('event-publisher'),

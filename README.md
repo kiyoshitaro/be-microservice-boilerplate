@@ -84,4 +84,8 @@ transport event kafka, redis
 
 sagas
 
-auto-detect-event-from-decorator, 
+auto-detect-event-from-decorator, notification
+
+Kafka
+
+Logger, Cache

@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { EVENT_PATTERN } from './constants';
 
 @Injectable()
-export class MEventPublisher {
+export class MEventPublisher implements OnModuleInit {
   private readonly eventBus: ClientProxy;
 
   constructor(eventBus: ClientProxy) {
     this.eventBus = eventBus;
   }
 
-  publish<T>(name: string, event: T): Observable<any> {
-    return this.eventBus.emit<T>(EVENT_PATTERN, { name, event });
+  async onModuleInit() {
+    await this.eventBus.connect();
+  }
+
+  publish<TResult, TInput>(name: string, data: TInput): Observable<TResult> {
+    return this.eventBus.emit<TResult, TInput>(name, data);
   }
 }

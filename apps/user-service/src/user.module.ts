@@ -45,8 +45,6 @@ const queries = [
 
 const eventHandlers = [EventHandler.UserCreatedHandler];
 
-const events = [Event.UserCreatedEvent, Event.AddGameToUserEvent];
-
 const sagas = [GameSagas];
 
 @Module({
@@ -64,7 +62,6 @@ const sagas = [GameSagas];
       inject: [ConfigService],
     }),
     MicroserviceEventPublisherModule.forRootAsync({
-      events,
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('event-publisher'),
@@ -82,4 +79,4 @@ const sagas = [GameSagas];
     ...sagas,
   ],
 })
-export class UserModule {}
+export class UserModule { }

@@ -28,7 +28,6 @@ export class GameService extends Service {
   }
 
   async create(data: CreateGameDto): Promise<Record<string, any>> {
-    console.log('🚀 ~ file: game.service.ts:33 ~ GameService ~ data:', data);
     const template = await this.commandBus.execute(new CreateGameCommand(data));
     return this.queryBus.execute(new GetGameQuery(template.id, 'detail'));
   }

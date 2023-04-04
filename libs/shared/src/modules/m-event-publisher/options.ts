@@ -5,6 +5,11 @@ export interface EventPublisherOptions {
   isGlobal?: boolean;
   default: string;
   connections: Record<string, ClientOptions>;
+
+  notification?: {
+    wsWebPlatformEvent?: string;
+    wsMobilePlatformEvent?: string;
+  };
 }
 
 export interface EventPublisherAsyncOptions
@@ -16,5 +21,4 @@ export interface EventPublisherAsyncOptions
     ...args: any[]
   ) => Promise<EventPublisherOptions> | EventPublisherOptions;
   inject?: any[];
-  events: any[];
 }

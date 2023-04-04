@@ -1,17 +1,28 @@
-import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
+import {
+  DynamicModule,
+  Inject,
+  Module,
+  OnApplicationBootstrap,
+  Provider,
+  Type,
+} from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { EventPublisherFactory } from './factory';
 import { EVENT_PUBLISHER_OPTIONS, LIST_EVENT } from './constants';
-import { EventHandler } from './handler';
+import { EventConsumer } from './consumer';
 import { MEventPublisher } from './publisher';
 import { EventPublisherAsyncOptions, EventPublisherOptions } from './options';
+import { MNotificationPublisher } from './notification-publisher';
+import { NotificationModule } from '@microservice-platform/shared/notification';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, NotificationModule],
   controllers: [],
-  providers: [EventHandler],
+  providers: [EventConsumer, MNotificationPublisher],
 })
 export class MicroserviceEventPublisherModule {
+  @Inject(EventConsumer)
+  private eventConsumer: EventConsumer;
   static forRootAsync(options: EventPublisherAsyncOptions): DynamicModule {
     return {
       global: options.isGlobal || false,
@@ -19,17 +30,13 @@ export class MicroserviceEventPublisherModule {
       providers: [
         this.createOptionsProvider(options),
         {
-          provide: LIST_EVENT,
-          useValue: options.events || [],
-        },
-        {
           provide: MEventPublisher,
           useFactory: (options: EventPublisherOptions) =>
             EventPublisherFactory.create(options),
           inject: [EVENT_PUBLISHER_OPTIONS],
         },
       ],
-      exports: [MEventPublisher],
+      exports: [MEventPublisher, MNotificationPublisher],
     };
   }
 
