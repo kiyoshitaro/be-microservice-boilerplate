@@ -6,11 +6,9 @@ import { AddGameToUserCommand } from '../commands/impl';
 import { AddGameToUserEvent } from '../events/impl';
 
 @Injectable()
-@SagaEvent(
-  AddGameToUserEvent
-)
+@SagaEvent(AddGameToUserEvent)
 export class GameSagas {
-  constructor() { }
+  constructor() {}
   @Saga()
   addGameToUserEvent = (events$: Observable<any>): Observable<ICommand> => {
     return events$.pipe(

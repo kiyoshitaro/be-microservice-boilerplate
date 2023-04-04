@@ -11,7 +11,7 @@ export class NotificationModule implements OnApplicationBootstrap {
   constructor(
     private readonly explorerService: ExplorerService,
     private readonly notificationBus: NotificationBus
-  ) { }
+  ) {}
 
   onApplicationBootstrap() {
     const { notifications } = this.explorerService.explore();

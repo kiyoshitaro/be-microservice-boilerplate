@@ -84,7 +84,7 @@ transport event kafka, redis
 
 sagas
 
-auto-detect-event-from-decorator, notification
+auto-detect-event-from-decorator, notification-bus
 
 Kafka
 
