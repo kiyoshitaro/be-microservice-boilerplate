@@ -1,6 +1,6 @@
 import { BaseModel } from '../base-model';
 import { CustomQueryBuilder } from '../queryBuilder';
-import { BaseFilter, ModelKeys } from '../interfaces';
+import { ModelKeys } from '../interfaces';
 import { AnyQueryBuilder, Expression, PrimitiveValue } from 'objection';
 import { ObjectionService } from '../service';
 import { Knex as KnexType } from 'knex';
@@ -14,15 +14,12 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
   model: any;
   knexConnection: KnexType | null = null;
 
-  static baseQueryFilter(
-    query: AnyQueryBuilder,
-    filter: BaseFilter
-  ): AnyQueryBuilder {
+  static queryFilter(query: AnyQueryBuilder, filter: any): AnyQueryBuilder {
     if (filter.order_by) {
       if (filter.sort_by && filter.sort_by === ESortBy.ASC) {
-        query = query.orderBy(filter.order_by, 'ASC');
+        query = query.orderByRaw(`${filter.order_by} ASC`);
       } else {
-        query = query.orderBy(filter.order_by, 'DESC');
+        query = query.orderByRaw(`${filter.order_by} DESC`);
       }
     }
 
@@ -30,10 +27,13 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
       query = query.limit(filter.limit);
       query = query.offset(filter.limit * (filter.page - 1));
     }
-    return query;
+    return this.extendQueryFilter(query, filter);
   }
 
-  static queryFilter(query: AnyQueryBuilder, filter: any): AnyQueryBuilder {
+  static extendQueryFilter(
+    query: AnyQueryBuilder,
+    filter: any
+  ): AnyQueryBuilder {
     return query;
   }
 

@@ -34,11 +34,11 @@ export class GetUserGamesQueryDto extends UserGameFilter {
   @ApiPropertyOptional({
     example: 'id',
     nullable: true,
-    enum: ['level', 'experience', 'created_at'],
+    enum: ['name', 'email', 'level', 'experience', 'created_at'],
   })
   @IsOptional()
   @IsString()
   @RequireWith(['sort_by'])
-  @IsIn(['level', 'experience', 'created_at'])
+  @IsIn(['name', 'email', 'level', 'experience', 'created_at'])
   order_by?: string;
 }

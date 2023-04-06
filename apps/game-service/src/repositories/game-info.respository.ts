@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GameInfoModel } from '../models';
 import { IGameInfoRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection } from 'objection';
+import { AnyQueryBuilder } from 'objection';
 import { GameInfoFilter } from '@microservice-platform/shared/filters/game-service';
 import {
   InjectModel,
@@ -20,7 +20,7 @@ export class GameInfoRepository
     return GameInfoModel.tableName;
   }
 
-  static queryFilter(
+  static extendQueryFilter(
     query: AnyQueryBuilder,
     filter: GameInfoFilter
   ): AnyQueryBuilder {
@@ -39,15 +39,8 @@ export class GameInfoRepository
     return query;
   }
 
-  async list(
-    filter?: GameInfoFilter,
-    orderBy: string = 'id',
-    sortBy: OrderByDirection = 'ASC'
-  ): Promise<GameInfoModel[]> {
-    const query = GameInfoRepository.queryFilter(this.query(), filter).orderBy(
-      orderBy,
-      sortBy
-    );
+  async list(filter?: GameInfoFilter): Promise<GameInfoModel[]> {
+    const query = GameInfoRepository.queryFilter(this.query(), filter);
     return query;
   }
 }

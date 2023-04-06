@@ -15,7 +15,6 @@ import { GetGamesQueryDto, GetUserGamesQueryDto } from '../dtos';
 import { convertQueryDtoToFilter } from '@microservice-platform/shared/utils';
 import {
   CreateGameDto,
-  GetByIdDto,
   ServiceResponseDto,
 } from '@microservice-platform/shared/dtos';
 
@@ -63,7 +62,7 @@ export class GameController {
     query = convertQueryDtoToFilter(
       query,
       null,
-      {},
+      { name: ['userFilter'], email: ['userFilter'] },
       { userFilter: ['name', 'email', 'username'] }
     );
 
@@ -71,14 +70,14 @@ export class GameController {
       filters: {
         ...query,
         is_pagination: Boolean(query.limit && query.page),
-        // user_ids: [id],
+        game_ids: [id],
       },
       include: 'user',
     });
   }
 
   @Post('/create')
-  public async createDepositTokenTransaction(
+  public async createGame(
     @Body(CreateGameValidationPipe) data: CreateGameDto
   ): Promise<ServiceResponseDto> {
     const result = await this.gameService.sendAwait('create_game', data);

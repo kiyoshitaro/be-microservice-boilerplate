@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GameModel } from '../models';
 import { IGameRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
+import { AnyQueryBuilder, raw } from 'objection';
 import { GameFilter } from '@microservice-platform/shared/filters/game-service';
 import {
   InjectModel,
@@ -20,7 +20,7 @@ export class GameRepository
     return GameModel.tableName;
   }
 
-  static queryFilter(
+  static extendQueryFilter(
     query: AnyQueryBuilder,
     filter: GameFilter
   ): AnyQueryBuilder {
@@ -44,15 +44,8 @@ export class GameRepository
     return query;
   }
 
-  async list(
-    filter?: GameFilter,
-    orderBy: string = 'id',
-    sortBy: OrderByDirection = 'ASC'
-  ): Promise<GameModel[]> {
-    const query = GameRepository.queryFilter(this.query(), filter).orderBy(
-      orderBy,
-      sortBy
-    );
+  async list(filter?: GameFilter): Promise<GameModel[]> {
+    const query = GameRepository.queryFilter(this.query(), filter);
     return query;
   }
 
@@ -64,7 +57,6 @@ export class GameRepository
     delete filterPagination.page;
     delete filterPagination.limit;
     let query = GameRepository.queryFilter(this.query(), filter);
-    query = GameRepository.baseQueryFilter(query, filter);
     return super.paginate(query, filter?.page, filter?.limit);
   }
 

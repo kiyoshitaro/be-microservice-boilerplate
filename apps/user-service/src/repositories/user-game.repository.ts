@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UserGameModel } from '../models';
 import { IUserGameRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
+import { AnyQueryBuilder, raw } from 'objection';
 import { UserGameFilter } from '@microservice-platform/shared/filters/user-service';
 import {
   InjectModel,
@@ -35,15 +35,24 @@ export class UserGameRepository
     query: AnyQueryBuilder,
     filter: UserGameFilter
   ): AnyQueryBuilder {
-    if (filter?.userFilter) {
-      // user is name of relationMapping
-      query = this.joinTable(query, 'user');
-      return UserRepository.queryFilter(query, filter.userFilter);
+    try {
+      if (filter?.userFilter) {
+        // NOTE: this not work because
+        // query = this.joinTable(query, "nft");
+        query = query.join(
+          UserRepository.tableName,
+          `${this.tableName}.user_id`,
+          `${UserRepository.tableName}.id`
+        );
+        query = UserRepository.queryFilter(query, filter.userFilter);
+      }
+      return query;
+    } catch (e) {
+      throw new InternalServerErrorException(e);
     }
-    return query;
   }
 
-  static queryFilter(
+  static extendQueryFilter(
     query: AnyQueryBuilder,
     filter: UserGameFilter
   ): AnyQueryBuilder {
@@ -81,15 +90,8 @@ export class UserGameRepository
     return query;
   }
 
-  async list(
-    filter?: UserGameFilter,
-    orderBy: string = 'id',
-    sortBy: OrderByDirection = 'ASC'
-  ): Promise<UserGameModel[]> {
-    const query = UserGameRepository.queryFilter(this.query(), filter).orderBy(
-      orderBy,
-      sortBy
-    );
+  async list(filter?: UserGameFilter): Promise<UserGameModel[]> {
+    const query = UserGameRepository.queryFilter(this.query(), filter);
     return query;
   }
 
@@ -104,7 +106,6 @@ export class UserGameRepository
       this.query().whereNotDeleted(),
       filter
     );
-    query = UserGameRepository.baseQueryFilter(query, filter);
     return super.paginate(query, filter?.page, filter?.limit);
   }
 }

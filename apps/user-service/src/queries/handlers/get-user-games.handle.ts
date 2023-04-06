@@ -15,6 +15,10 @@ export class GetUserGameHandler implements IQueryHandler<GetUserGameQuery> {
 
   async execute(query: GetUserGameQuery): Promise<Record<string, any>> {
     const { filter, include } = query;
+    console.log(
+      '🚀 ~ file: get-user-games.handle.ts:18 ~ GetUserGameHandler ~ execute ~ filter:',
+      filter
+    );
     if (filter.is_pagination) {
       delete filter.is_pagination;
       let modelsPagination = await this.repository.listPaginate(filter);

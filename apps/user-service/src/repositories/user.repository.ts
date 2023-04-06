@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserModel } from '../models';
 import { IUserRepository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection, raw } from 'objection';
+import { AnyQueryBuilder, raw } from 'objection';
 import { UserFilter } from '@microservice-platform/shared/filters/user-service';
 import {
   InjectModel,
@@ -20,7 +20,7 @@ export class UserRepository
     return UserModel.tableName;
   }
 
-  static queryFilter(
+  static extendQueryFilter(
     query: AnyQueryBuilder,
     filter: UserFilter
   ): AnyQueryBuilder {
@@ -41,15 +41,8 @@ export class UserRepository
     return query;
   }
 
-  async list(
-    filter?: UserFilter,
-    orderBy: string = 'id',
-    sortBy: OrderByDirection = 'ASC'
-  ): Promise<UserModel[]> {
-    const query = UserRepository.queryFilter(this.query(), filter).orderBy(
-      orderBy,
-      sortBy
-    );
+  async list(filter?: UserFilter): Promise<UserModel[]> {
+    const query = UserRepository.queryFilter(this.query(), filter);
     return query;
   }
 }

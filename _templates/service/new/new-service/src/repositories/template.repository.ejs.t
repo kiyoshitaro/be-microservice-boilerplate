@@ -4,7 +4,7 @@ to: apps/<%=name%>-service/src/repositories/<%=name%>.repository.ts
 import { Injectable } from '@nestjs/common';
 import { <%= h.changeCase.pascalCase(name) %>Model } from '../models';
 import { I<%= h.changeCase.pascalCase(name) %>Repository } from './interfaces';
-import { AnyQueryBuilder, OrderByDirection } from 'objection';
+import { AnyQueryBuilder } from 'objection';
 import { <%= h.changeCase.pascalCase(name) %>Filter } from '@microservice-platform/<%=name%>-service/filters';
 import { InjectModel, Repository } from "@microservice-platform/shared/objection";
 
@@ -20,13 +20,10 @@ export class <%= h.changeCase.pascalCase(name) %>Repository
     return <%= h.changeCase.pascalCase(name) %>Model.tableName;
   }
 
-  static queryFilter(
+  static extendQueryFilter(
     query: AnyQueryBuilder,
     filter: <%= h.changeCase.pascalCase(name) %>Filter
   ): AnyQueryBuilder {
-    if (filter?.ids) {
-      query = query.whereIn(`${this.tableName}.id`, filter?.ids);
-    }
     if (filter?.ids) {
       query = query.whereIn(`${this.tableName}.id`, filter?.ids);
     }
@@ -35,13 +32,8 @@ export class <%= h.changeCase.pascalCase(name) %>Repository
 
   async list(
     filter?: <%= h.changeCase.pascalCase(name) %>Filter,
-    orderBy: string = 'id',
-    sortBy: OrderByDirection = 'ASC'
   ): Promise< <%= h.changeCase.pascalCase(name) %>Model[] > {
-    const query = <%= h.changeCase.pascalCase(name) %>Repository.queryFilter(this.query(), filter).orderBy(
-      orderBy,
-      sortBy
-    );
+    const query = <%= h.changeCase.pascalCase(name) %>Repository.queryFilter(this.query(), filter);
     return query;
   }
 }

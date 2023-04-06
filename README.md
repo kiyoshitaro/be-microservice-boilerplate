@@ -77,6 +77,8 @@ Lint fix
 
 Oauth, auth
 
+query-filter design
+
 validate+dto-query+error-template
 
 central-event-interservice
@@ -86,6 +88,7 @@ transport event kafka, redis
 sagas
 
 auto-detect-event-from-decorator, notification-bus
+
 
 Kafka
 Bootstrap Server: kafka:9092,kafka:9093
