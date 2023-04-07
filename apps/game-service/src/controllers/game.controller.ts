@@ -1,17 +1,30 @@
 import { GameService } from '@microservice-platform/game-service/services';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { Controller, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  HttpStatus,
+  CacheTTL,
+  UseInterceptors,
+  CacheStore,
+  CACHE_MANAGER,
+  Inject,
+} from '@nestjs/common';
 import {
   CreateGameDto,
   GetByIdDto,
   ServiceResponseDto,
 } from '@microservice-platform/shared/dtos';
 import { GetGamesDto } from '../dtos';
+import { MicroserviceCacheFactory } from '@microservice-platform/shared/cache';
+import { MicroserviceCacheInterceptor } from '@microservice-platform/shared/interceptors';
 
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) {}
+  @Inject(CACHE_MANAGER) private cacheManager: CacheStore;
+  constructor(private readonly gameService: GameService) { }
 
+  @CacheTTL(MicroserviceCacheFactory)
+  @UseInterceptors(MicroserviceCacheInterceptor)
   @MessagePattern('get_paging_game')
   async getData(@Payload() data?: GetGamesDto): Promise<ServiceResponseDto> {
     const { filters, include } = data;

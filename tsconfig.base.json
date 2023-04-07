@@ -84,6 +84,12 @@
       ],
       "@microservice-platform/shared/notification": [
         "libs/shared/src/modules/notification/index.ts"
+      ],
+      "@microservice-platform/shared/interceptors": [
+        "libs/shared/src/interceptors/index.ts"
+      ],
+      "@microservice-platform/shared/cache": [
+        "libs/shared/src/cache/index.ts"
       ]
     }
   },

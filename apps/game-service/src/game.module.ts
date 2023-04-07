@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GameController } from '@microservice-platform/game-service/controllers';
 import { GameService } from '@microservice-platform/game-service/services';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,11 +12,13 @@ import { ObjectionModule } from '@microservice-platform/shared/objection';
 import * as Command from '@microservice-platform/game-service/commands/handlers';
 import * as Query from '@microservice-platform/game-service/queries/handlers';
 import * as EventHandler from '@microservice-platform/game-service/events/handlers';
-import * as Event from '@microservice-platform/game-service/events/impl';
 import { configDb } from '@microservice-platform/game-service/configs/database';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/game-service/configs/event-publisher';
+import type { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store';
+import { configCache } from '@microservice-platform/game-service/configs/cache';
 
 const transformers = [
   Transformer.GameTransformer,
@@ -40,15 +42,13 @@ const queries = [Query.GetGamesHandler, Query.GetGameHandler];
 
 const eventHandlers = [EventHandler.GameCreatedHandler];
 
-const events = [Event.GameCreatedEvent];
-
 @Module({
   imports: [
     CqrsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      load: [configDb, configEventPublisher],
+      load: [configDb, configEventPublisher, configCache],
     }),
     ObjectionModule.registerAsync({
       isGlobal: true,
@@ -63,6 +63,26 @@ const events = [Event.GameCreatedEvent];
       useFactory: (config: ConfigService) => config.get('event-publisher'),
       inject: [ConfigService],
     }),
+    CacheModule.registerAsync<RedisClientOptions>({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => {
+        const host = config.get<string>('cache.host');
+        const port = config.get<number>('cache.port');
+        const db = config.get<number>('cache.database');
+        const ttl = config.get<number>('cache.ttl');
+
+        return [
+          {
+            store: await redisStore.redisStore({
+              url: `redis://${host}:${port}/${db}`,
+              ttl,
+            }),
+          },
+        ] as any;
+      },
+      inject: [ConfigService],
+    }),
   ],
   controllers: [GameController],
   providers: [
@@ -74,4 +94,4 @@ const events = [Event.GameCreatedEvent];
     ...eventHandlers,
   ],
 })
-export class GameModule {}
+export class GameModule { }

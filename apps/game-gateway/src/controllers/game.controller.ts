@@ -21,13 +21,15 @@ import {
 @ApiTags('game-gateway')
 @Controller('games')
 export class GameController {
+
   constructor(
     @Inject('GAME_SERVICE')
     private readonly gameService: ClientAppProxy,
 
     @Inject('USER_SERVICE')
     private readonly userService: ClientAppProxy
-  ) {}
+  ) { }
+
   @Get('/')
   public async getPagingGames(
     @Query(GameValidationPipe) query: GetGamesQueryDto
