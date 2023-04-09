@@ -19,7 +19,7 @@ services:
       - .:/home/node/workspace/apps/<%=name%>-gateway
       - /home/node/workspace/node_modules
     networks:
-      - microservice-platform-server_microservice-platform-network
+      - be-microservice-boilerplate_microservice-platform-network
     ports:
       - 3333:8000
     env_file:
@@ -27,5 +27,5 @@ services:
       - .env.dev
 
 networks:
-  microservice-platform-server_microservice-platform-network:
+  be-microservice-boilerplate_microservice-platform-network:
     external: true

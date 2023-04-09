@@ -19,11 +19,11 @@ services:
       - .:/home/node/workspace/apps/<%=name%>-service
       - /home/node/workspace/node_modules
     networks:
-      - microservice-platform-server_microservice-platform-network
+      - be-microservice-boilerplate_microservice-platform-network
     env_file:
       - ../../.env.global.dev
       - .env.dev
 
 networks:
-  microservice-platform-server_microservice-platform-network:
+  be-microservice-boilerplate_microservice-platform-network:
     external: true
