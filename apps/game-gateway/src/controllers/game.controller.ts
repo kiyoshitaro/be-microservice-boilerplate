@@ -41,6 +41,7 @@ export class GameController {
       },
       include: '',
       isPagination: true,
+      ttl: 10,
     });
     return res;
   }

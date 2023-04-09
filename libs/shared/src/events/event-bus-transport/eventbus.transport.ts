@@ -9,7 +9,7 @@ export class EventBusTransport {
     private readonly eventBus: EventBus,
     private readonly moduleRef: ModuleRef,
     private readonly publishers: any[]
-  ) {}
+  ) { }
 
   publish<T extends IEvent>(event: T) {
     this.publishViaPublisher(event);

@@ -79,4 +79,4 @@ const sagas = [GameSagas];
     ...sagas,
   ],
 })
-export class UserModule {}
+export class UserModule { }
