@@ -37,3 +37,4 @@ export * from './game-service/create-game.dto';
 
 // OTHER
 export * from './service-response.dto';
+export * from './job-service/create-job.dto';

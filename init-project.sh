@@ -24,7 +24,7 @@ for FILE in $DIR_APP/*; do
         echo "CREATE $ENV_FILE"
     fi
     SERVICE="${FILE##*/}"
-    ./build-docker.sh $SERVICE
+    # ./build-docker.sh $SERVICE
 done
 
 echo "START LOCAL DOCKER COMPOSE"

@@ -5,6 +5,13 @@ export class ConfigAppService {
 
   constructor() {
     this.envConfig = {};
+    this.envConfig.jobService = {
+      options: {
+        port: process.env.JOB_SERVICE_PORT,
+        host: process.env.JOB_SERVICE_HOST,
+      },
+      transport: Transport.TCP,
+    };
     this.envConfig.gameUserGatewayPort = process.env.GAME_USER_GATEWAY_PORT;
     this.envConfig.gameGatewayPort = process.env.GAME_GATEWAY_PORT;
     this.envConfig.gameService = {

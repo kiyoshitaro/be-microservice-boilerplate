@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  job-service:
+    image: microservice-platform-job-service:1.0.0
+    container_name: microservice-platform-job-service
+    env_file:
+      - .env.global.dev
+      - apps/job-service/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+      
   game-user-gateway:
     image: microservice-platform-game-user-gateway:1.0.0
     container_name: microservice-platform-game-user-gateway

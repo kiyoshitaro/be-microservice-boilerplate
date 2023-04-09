@@ -17,6 +17,8 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "paths": {
+      "@microservice-platform/job-service/*": ["apps/job-service/src/*"],
+
       "@microservice-platform/game-user-gateway/*": [
         "apps/game-user-gateway/src/*"
       ],

@@ -110,7 +110,7 @@
     "jest": "^28.0.0",
     "jest-environment-jsdom": "28.1.1",
     "jssoup": "^0.0.15",
-    "nx": "15.2.4",
+    "nx": "^15.2.4",
     "pre-commit": "^1.2.2",
     "prettier": "^2.6.2",
     "supertest": "^6.3.3",

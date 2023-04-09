@@ -1,6 +1,3 @@
----
-to: apps/<%=name%>-service/src/configs/database.ts
----
 import {registerAs} from '@nestjs/config';
 import Knex, { Knex as K } from 'knex';
 import config from './knex';

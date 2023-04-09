@@ -12,7 +12,6 @@ import { ObjectionModule } from '@microservice-platform/shared/objection';
 import * as Command from '@microservice-platform/<%=name%>-service/commands/handlers';
 import * as Query from '@microservice-platform/<%=name%>-service/queries/handlers';
 import * as EventHandler from '@microservice-platform/<%=name%>-service/events/handlers';
-import * as Event from '@microservice-platform/<%=name%>-service/events/impl';
 import { configDb } from '@microservice-platform/<%=name%>-service/configs/database';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
@@ -36,8 +35,6 @@ const queries = [Query.Gets<%= h.changeCase.pascalCase(name) %>Handler, Query.Ge
 
 const eventHandlers = [EventHandler.<%= h.changeCase.pascalCase(name) %>CreatedHandler];
 
-const events = [Event.<%= h.changeCase.pascalCase(name) %>CreatedEvent];
-
 @Module({
   imports: [
     CqrsModule,
@@ -53,7 +50,6 @@ const events = [Event.<%= h.changeCase.pascalCase(name) %>CreatedEvent];
       inject: [ConfigService],
     }),
     MicroserviceEventPublisherModule.forRootAsync({
-      events,
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('event-publisher'),
