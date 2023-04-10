@@ -71,6 +71,7 @@ npm run test:api game-service
   - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
   - docker-compose.local.yml shoould comment all without base service like : redis, db, kafka to run start-local
 
+Auto gencode with hygen
 
 Objection module & Base model 
 
