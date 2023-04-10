@@ -71,26 +71,39 @@ npm run test:api game-service
   - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
   - docker-compose.local.yml shoould comment all without base service like : redis, db, kafka to run start-local
 
-MicroserviceExceptionFilter: should throw error not use new InternalError()
 
-Lint fix
+Objection module & Base model 
+
+Repository
+
+query-filter design:  
+
+Transformer
+
+Service: Setup queryBus, commandBus in CQRS to execute query, command  
+
+Event-driven: 
+  - central-event-innerservice (eventBus) 
+  - Transport event by kafka (kafka Bootstrap Server: kafka:9092,kafka:9093), redis in libs/shared/src/modules/m-event-publisher
+  - Design sagas 
+  - Auto-detect-event-from-decorator, notification-bus
+
+MicroserviceExceptionFilter: full control over the exceptions layer. can add logging or use a different JSON schema based on some dynamic factors
+
+Setup Message-pattern to communicate between services in /libs/shared/src/microservices with ConfigAppService
+
+Setup Service Cache in Redis
+
+Pipe-validate & error-template
+
+Guard: have access to the ExecutionContext instance, and thus know exactly what's going to be executed next() while middleware auth not 
 
 Oauth, auth
 
-query-filter design
+MetricMiddleware
 
-validate+dto-query+error-template
+Logger
 
-central-event-interservice
+Setup monoRepo with nx
 
-transport event kafka, redis
-
-sagas
-
-auto-detect-event-from-decorator, notification-bus
-
-
-Kafka
-Bootstrap Server: kafka:9092,kafka:9093
-
-Logger, Cache
+Lint fix
