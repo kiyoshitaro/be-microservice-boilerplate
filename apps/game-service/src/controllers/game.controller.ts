@@ -21,7 +21,7 @@ import { MicroserviceCacheInterceptor } from '@microservice-platform/shared/inte
 @Controller('game')
 export class GameController {
   @Inject(CACHE_MANAGER) private cacheManager: CacheStore;
-  constructor(private readonly gameService: GameService) { }
+  constructor(private readonly gameService: GameService) {}
 
   @CacheTTL(MicroserviceCacheFactory)
   @UseInterceptors(MicroserviceCacheInterceptor)

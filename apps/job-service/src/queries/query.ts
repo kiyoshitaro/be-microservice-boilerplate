@@ -1,3 +1,3 @@
 export class BaseQuery {
-  constructor(public readonly include: string = '') { }
+  constructor(public readonly include: string = '') {}
 }

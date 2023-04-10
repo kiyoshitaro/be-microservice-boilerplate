@@ -14,9 +14,7 @@ async function bootstrap() {
     jobConfig
   );
   await app.listen();
-  Logger.log(
-    `🚀 Job service is running at port ${jobConfig.options.port}`
-  );
+  Logger.log(`🚀 Job service is running at port ${jobConfig.options.port}`);
 }
 
 bootstrap();

@@ -94,4 +94,4 @@ const eventHandlers = [EventHandler.GameCreatedHandler];
     ...eventHandlers,
   ],
 })
-export class GameModule { }
+export class GameModule {}

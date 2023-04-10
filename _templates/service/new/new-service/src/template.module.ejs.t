@@ -16,7 +16,9 @@ import { configDb } from '@microservice-platform/<%=name%>-service/configs/datab
 import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/<%=name%>-service/configs/event-publisher';
-
+import type { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store';
+import { configCache } from '@microservice-platform/<%=name%>-service/configs/cache';
 
 const transformers = [
   Transformer.<%= h.changeCase.pascalCase(name) %>Transformer
@@ -41,7 +43,7 @@ const eventHandlers = [EventHandler.<%= h.changeCase.pascalCase(name) %>CreatedH
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      load: [configDb, configEventPublisher],
+      load: [configDb, configEventPublisher, configCache],
     }),
     ObjectionModule.registerAsync({
       isGlobal: true,
@@ -53,6 +55,26 @@ const eventHandlers = [EventHandler.<%= h.changeCase.pascalCase(name) %>CreatedH
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('event-publisher'),
+      inject: [ConfigService],
+    }),
+    CacheModule.registerAsync<RedisClientOptions>({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => {
+        const host = config.get<string>('cache.host');
+        const port = config.get<number>('cache.port');
+        const db = config.get<number>('cache.database');
+        const ttl = config.get<number>('cache.ttl');
+
+        return [
+          {
+            store: await redisStore.redisStore({
+              url: `redis://${host}:${port}/${db}`,
+              ttl,
+            }),
+          },
+        ] as any;
+      },
       inject: [ConfigService],
     }),
   ],

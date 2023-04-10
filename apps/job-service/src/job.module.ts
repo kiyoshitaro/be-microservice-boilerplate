@@ -8,7 +8,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/job-service/configs/event-publisher';
 
-
 const transformers = [];
 
 const repositories = [];
@@ -50,4 +49,4 @@ const eventHandlers = [];
     ...eventHandlers,
   ],
 })
-export class JobModule { }
+export class JobModule {}

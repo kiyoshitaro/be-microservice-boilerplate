@@ -4,8 +4,7 @@ import { JobService } from '../services';
 
 @Controller('job')
 export class JobController {
-  constructor(private readonly jobService: JobService) { }
+  constructor(private readonly jobService: JobService) {}
   @Cron('*/10 * * * * *')
-  async listenJob() {
-  }
+  async listenJob() {}
 }

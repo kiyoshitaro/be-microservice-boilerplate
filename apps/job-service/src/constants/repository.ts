@@ -1,2 +1,1 @@
-export const REPOSITORIES = {
-};
+export const REPOSITORIES = {};

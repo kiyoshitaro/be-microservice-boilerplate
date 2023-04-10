@@ -4,7 +4,7 @@ import { Transformer$IncludeMethodOptions } from '@microservice-platform/shared/
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class JobTransformer extends Transformer< JobModel> {
+export class JobTransformer extends Transformer<JobModel> {
   availableIncludes = [];
   defaultIncludes = [];
 
@@ -12,16 +12,14 @@ export class JobTransformer extends Transformer< JobModel> {
     super();
   }
 
-  async transform(
-    model: JobModel
-  ): Promise<Record<string, any> | null> {
+  async transform(model: JobModel): Promise<Record<string, any> | null> {
     return {
       id: model.id,
     };
   }
 
   async include_detail(
-    model:  JobModel,
+    model: JobModel,
     options: Transformer$IncludeMethodOptions
   ) {
     return {
