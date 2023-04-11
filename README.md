@@ -75,9 +75,11 @@ Auto gencode with hygen
 
 Objection module & Base model 
 
+Logging query from ORM
+
 Repository
 
-query-filter design:  
+Query-filter, sort & pagination design
 
 Transformer
 
@@ -94,6 +96,8 @@ MicroserviceExceptionFilter: full control over the exceptions layer. can add log
 Setup Message-pattern to communicate between services in /libs/shared/src/microservices with ConfigAppService
 
 Setup Service Cache in Redis
+
+Setup notification socket
 
 Pipe-validate & error-template
 
