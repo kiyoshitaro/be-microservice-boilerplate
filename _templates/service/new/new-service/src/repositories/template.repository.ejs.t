@@ -36,4 +36,18 @@ export class <%= h.changeCase.pascalCase(name) %>Repository
     const query = <%= h.changeCase.pascalCase(name) %>Repository.queryFilter(this.query(), filter);
     return query;
   }
+
+  async listPaginate(
+    filter?: <%= h.changeCase.pascalCase(name) %>Filter,
+  ): Promise<{ items: <%= h.changeCase.pascalCase(name) %>Model[]; pagination: Record<string, any> }> {
+    const filterPagination = { ...filter };
+    delete filterPagination.page;
+    delete filterPagination.limit;
+    let query = <%= h.changeCase.pascalCase(name) %>Repository.queryFilter(
+      this.query().whereNotDeleted(),
+      filter
+    );
+    return super.paginate(query, filter?.page, filter?.limit);
+  }
+
 }

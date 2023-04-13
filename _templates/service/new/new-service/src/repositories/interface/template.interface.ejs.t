@@ -9,4 +9,8 @@ export interface I<%= h.changeCase.pascalCase(name) %>Repository extends IReposi
   list(
     filter?: <%= h.changeCase.pascalCase(name) %>Filter
   ): Promise< <%= h.changeCase.pascalCase(name) %>Model[]>;
+
+  listPaginate(
+    filter?: <%= h.changeCase.pascalCase(name) %>Filter,
+  ): Promise<{ items: <%= h.changeCase.pascalCase(name) %>Model[]; pagination: Record<string, any> }>;
 }
