@@ -1,7 +1,7 @@
 import { BaseModel } from '../base-model';
 import { CustomQueryBuilder } from '../queryBuilder';
 import { ModelKeys } from '../interfaces';
-import { AnyQueryBuilder, Expression, PrimitiveValue } from 'objection';
+import { AnyQueryBuilder, Expression, PrimitiveValue, MaybeCompositeId } from 'objection';
 import { ObjectionService } from '../service';
 import { Knex as KnexType } from 'knex';
 import { ModelNotFound } from '../exceptions';
@@ -299,7 +299,7 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     return records;
   }
 
-  async updateById(id: string | number, setValues: ModelKeys<T>): Promise<T> {
+  async updateById(id: MaybeCompositeId, setValues: ModelKeys<T>): Promise<T> {
     const query = this.query();
     const record = await query.updateAndFetchById(id, setValues);
     return record;
@@ -326,7 +326,7 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     });
   }
 
-  async findById(id: number | string | (number | string)[]): Promise<T> {
+  async findById(id: MaybeCompositeId): Promise<T> {
     return this.query().findById(id);
   }
 

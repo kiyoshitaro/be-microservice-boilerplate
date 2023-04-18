@@ -1,5 +1,6 @@
 import { BaseModel } from '../base-model';
 import { ModelKeys } from '../interfaces';
+import { MaybeCompositeId } from 'objection';
 
 export interface IRepository<T extends BaseModel> {
   model: any;
@@ -154,7 +155,7 @@ export interface IRepository<T extends BaseModel> {
    * @param returnOne Set this true when you want only the first object to be returned
    */
   updateById(
-    id: number | string,
+    id: MaybeCompositeId,
     setValues: ModelKeys<T>,
     returnOne?: boolean
   ): Promise<T>;
@@ -174,5 +175,5 @@ export interface IRepository<T extends BaseModel> {
    *
    * @param id
    */
-  findById(id: number | string | (number | string)[]): Promise<T>;
+  findById(id: MaybeCompositeId): Promise<T>;
 }
