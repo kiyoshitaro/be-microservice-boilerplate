@@ -326,7 +326,7 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
     });
   }
 
-  async findById(id: number | string): Promise<T> {
+  async findById(id: number | string | (number | string)[]): Promise<T> {
     return this.query().findById(id);
   }
 

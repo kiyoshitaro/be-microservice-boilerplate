@@ -174,5 +174,5 @@ export interface IRepository<T extends BaseModel> {
    *
    * @param id
    */
-  findById(id: number | string): Promise<T>;
+  findById(id: number | string | (number | string)[]): Promise<T>;
 }
