@@ -1,6 +1,7 @@
+import { Knex } from 'knex';
+import { MaybeCompositeId } from 'objection';
 import { BaseModel } from '../base-model';
 import { ModelKeys } from '../interfaces';
-import { MaybeCompositeId } from 'objection';
 
 export interface IRepository<T extends BaseModel> {
   model: any;
@@ -30,6 +31,11 @@ export interface IRepository<T extends BaseModel> {
    */
   create(inputs: ModelKeys<T>): Promise<T>;
 
+  createWithTransaction(
+    trx: Knex.Transaction,
+    inputs: ModelKeys<T>,
+  ): Promise<T>;
+
   /**
    * Update or Create model with given condition and values
    * @param conditions
@@ -37,7 +43,7 @@ export interface IRepository<T extends BaseModel> {
    */
   createOrUpdate(
     conditions: ModelKeys<T>,
-    values: ModelKeys<T>
+    values: ModelKeys<T>,
   ): Promise<T | undefined>;
 
   /**
@@ -63,7 +69,7 @@ export interface IRepository<T extends BaseModel> {
    */
   updateWhere(
     where: ModelKeys<T>,
-    setValues: ModelKeys<T>
+    setValues: ModelKeys<T>,
   ): Promise<number | null>;
 
   /**
@@ -76,7 +82,7 @@ export interface IRepository<T extends BaseModel> {
    * Get count of rows matching a criteria
    * @param params
    */
-  count(params: T): Promise<number>;
+  count(params?: T): Promise<number>;
 
   /**
    * Refresh a model
@@ -108,7 +114,7 @@ export interface IRepository<T extends BaseModel> {
   attach(
     model: T,
     relation: string,
-    payload: number | string | Array<number | string> | Record<string, any>
+    payload: number | string | Array<number | string> | Record<string, any>,
   ): Promise<void>;
 
   /**
@@ -136,6 +142,11 @@ export interface IRepository<T extends BaseModel> {
    */
   query(): any;
 
+  // return query with transaction
+  queryTransaction(trx: any): any;
+
+  queryTransaction(trx: Knex.Transaction): any;
+
   /**
    * Update rows where condition is matched and return modified rows
    * @param where
@@ -145,7 +156,7 @@ export interface IRepository<T extends BaseModel> {
   updateAndReturn(
     where: T,
     setValues: ModelKeys<T>,
-    returnOne?: boolean
+    returnOne?: boolean,
   ): Promise<T | T[]>;
 
   /**
@@ -157,7 +168,7 @@ export interface IRepository<T extends BaseModel> {
   updateById(
     id: MaybeCompositeId,
     setValues: ModelKeys<T>,
-    returnOne?: boolean
+    returnOne?: boolean,
   ): Promise<T>;
 
   /**

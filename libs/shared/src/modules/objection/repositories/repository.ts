@@ -1,7 +1,7 @@
 import { BaseModel } from '../base-model';
 import { CustomQueryBuilder } from '../queryBuilder';
 import { ModelKeys } from '../interfaces';
-import { AnyQueryBuilder, Expression, PrimitiveValue, MaybeCompositeId } from 'objection';
+import { AnyQueryBuilder, Expression, PrimitiveValue, MaybeCompositeId , Transaction} from 'objection';
 import { ObjectionService } from '../service';
 import { Knex as KnexType } from 'knex';
 import { ModelNotFound } from '../exceptions';
@@ -103,6 +103,13 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
    */
   async create(inputs: ModelKeys<T>): Promise<T> {
     return this.query().insert(inputs).returning('*') as unknown as T;
+  }
+
+  async createWithTransaction(
+    trx: Transaction,
+    inputs: ModelKeys<T>,
+  ): Promise<T> {
+    return this.model.query(trx).insert(inputs).returning('*') as unknown as T;
   }
 
   /**
@@ -280,6 +287,10 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
       : this.knexConnection;
 
     return this.model.query(dbConnection);
+  }
+
+  queryTransaction<R = T>(trx: Transaction): CustomQueryBuilder<T, R> {
+    return this.model.query(trx);
   }
 
   getEntityName(): string {
