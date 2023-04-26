@@ -107,4 +107,9 @@ export class BaseFilter {
   @IsString()
   @RequireWith(['search_by'])
   search_text?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  selected_columns?: string[];
 }

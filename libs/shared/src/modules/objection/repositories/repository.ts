@@ -27,6 +27,9 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
       query = query.limit(filter.limit);
       query = query.offset(filter.limit * (filter.page - 1));
     }
+    if (filter.selected_columns) {
+      query = query.select(filter.selected_columns);
+    }
     return this.extendQueryFilter(query, filter);
   }
 

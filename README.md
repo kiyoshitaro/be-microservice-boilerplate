@@ -79,7 +79,7 @@ Logging query from ORM
 
 Repository
 
-Query-filter, sort & pagination design
+Filtering, Sorting, and Pagination design
 
 Transformer
 
