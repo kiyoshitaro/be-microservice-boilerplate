@@ -101,6 +101,8 @@ Setup notification socket
 
 Pipe-validate & error-template
 
+Elasticsearch
+
 Guard: have access to the ExecutionContext instance, and thus know exactly what's going to be executed next() while middleware auth not 
 
 Oauth, auth
