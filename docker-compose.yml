@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  elasticsearch-service:
+    image: microservice-platform-elasticsearch-service:1.0.0
+    container_name: microservice-platform-elasticsearch-service
+    env_file:
+      - .env.global.dev
+      - apps/elasticsearch-service/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+      
   job-service:
     image: microservice-platform-job-service:1.0.0
     container_name: microservice-platform-job-service
@@ -10,7 +21,7 @@ services:
       APP_ENV: dev
     networks:
       - microservice-platform-network
-      
+
   game-user-gateway:
     image: microservice-platform-game-user-gateway:1.0.0
     container_name: microservice-platform-game-user-gateway
@@ -149,6 +160,27 @@ services:
       - microservice-platform-network
     environment:
       - bootstrapServers=kafka:9002,kafka:9093
+
+  elasticsearch:
+    image: elasticsearch:8.7.0
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - microservice-platform-network
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: kibana:8.7.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200/
+    networks:
+      - microservice-platform-network
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
 
 networks:
   microservice-platform-network:
