@@ -17,7 +17,9 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "paths": {
-      "@microservice-platform/elasticsearch-service/*": ["apps/elasticsearch-service/src/*"],
+      "@microservice-platform/elasticsearch-service/*": [
+        "apps/elasticsearch-service/src/*"
+      ],
 
       "@microservice-platform/job-service/*": ["apps/job-service/src/*"],
 

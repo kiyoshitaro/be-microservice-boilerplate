@@ -2,7 +2,7 @@ import { BaseModel } from '@microservice-platform/shared/objection';
 
 class ElasticsearchModel extends BaseModel {
   static tableName = 'elasticsearch';
-  static connection = "postgres";
+  static connection = 'postgres';
   id!: string;
   created_at?: Date | null;
   updated_at?: Date | null;

@@ -8,7 +8,9 @@ import { checkDatabaseConnection } from '@microservice-platform/elasticsearch-se
 
 async function bootstrap() {
   await checkDatabaseConnection();
-  const elasticsearchConfig = new ConfigAppService().get('elasticsearchService');
+  const elasticsearchConfig = new ConfigAppService().get(
+    'elasticsearchService'
+  );
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     ElasticsearchModule,
     elasticsearchConfig

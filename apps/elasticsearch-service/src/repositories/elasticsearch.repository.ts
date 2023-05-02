@@ -3,11 +3,14 @@ import { ElasticsearchModel } from '../models';
 import { IElasticsearchRepository } from './interfaces';
 import { AnyQueryBuilder } from 'objection';
 import { ElasticsearchFilter } from '@microservice-platform/elasticsearch-service/filters';
-import { InjectModel, Repository } from "@microservice-platform/shared/objection";
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 
 @Injectable()
 export class ElasticsearchRepository
-  extends Repository< ElasticsearchModel>
+  extends Repository<ElasticsearchModel>
   implements IElasticsearchRepository
 {
   @InjectModel(ElasticsearchModel)
@@ -27,15 +30,13 @@ export class ElasticsearchRepository
     return query;
   }
 
-  async list(
-    filter?: ElasticsearchFilter,
-  ): Promise< ElasticsearchModel[] > {
+  async list(filter?: ElasticsearchFilter): Promise<ElasticsearchModel[]> {
     const query = ElasticsearchRepository.queryFilter(this.query(), filter);
     return query;
   }
 
   async listPaginate(
-    filter?: ElasticsearchFilter,
+    filter?: ElasticsearchFilter
   ): Promise<{ items: ElasticsearchModel[]; pagination: Record<string, any> }> {
     const filterPagination = { ...filter };
     delete filterPagination.page;
@@ -46,5 +47,4 @@ export class ElasticsearchRepository
     );
     return super.paginate(query, filter?.page, filter?.limit);
   }
-
 }

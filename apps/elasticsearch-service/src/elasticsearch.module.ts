@@ -83,12 +83,11 @@ const eventHandlers = [];
     {
       provide: 'GAME_SERVICE',
       useFactory: (configService: ConfigAppService) => {
-        const gameServiceOptions =
-          configService.get('gameService');
+        const gameServiceOptions = configService.get('gameService');
         return ClientProxyAppFactory.create(gameServiceOptions);
       },
       inject: [ConfigAppService],
     },
   ],
 })
-export class ElasticsearchModule { }
+export class ElasticsearchModule {}

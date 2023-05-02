@@ -33,7 +33,7 @@ export interface IRepository<T extends BaseModel> {
 
   createWithTransaction(
     trx: Knex.Transaction,
-    inputs: ModelKeys<T>,
+    inputs: ModelKeys<T>
   ): Promise<T>;
 
   /**
@@ -43,7 +43,7 @@ export interface IRepository<T extends BaseModel> {
    */
   createOrUpdate(
     conditions: ModelKeys<T>,
-    values: ModelKeys<T>,
+    values: ModelKeys<T>
   ): Promise<T | undefined>;
 
   /**
@@ -69,7 +69,7 @@ export interface IRepository<T extends BaseModel> {
    */
   updateWhere(
     where: ModelKeys<T>,
-    setValues: ModelKeys<T>,
+    setValues: ModelKeys<T>
   ): Promise<number | null>;
 
   /**
@@ -114,7 +114,7 @@ export interface IRepository<T extends BaseModel> {
   attach(
     model: T,
     relation: string,
-    payload: number | string | Array<number | string> | Record<string, any>,
+    payload: number | string | Array<number | string> | Record<string, any>
   ): Promise<void>;
 
   /**
@@ -156,7 +156,7 @@ export interface IRepository<T extends BaseModel> {
   updateAndReturn(
     where: T,
     setValues: ModelKeys<T>,
-    returnOne?: boolean,
+    returnOne?: boolean
   ): Promise<T | T[]>;
 
   /**
@@ -168,7 +168,7 @@ export interface IRepository<T extends BaseModel> {
   updateById(
     id: MaybeCompositeId,
     setValues: ModelKeys<T>,
-    returnOne?: boolean,
+    returnOne?: boolean
   ): Promise<T>;
 
   /**

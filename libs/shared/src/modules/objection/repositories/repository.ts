@@ -1,7 +1,13 @@
 import { BaseModel } from '../base-model';
 import { CustomQueryBuilder } from '../queryBuilder';
 import { ModelKeys } from '../interfaces';
-import { AnyQueryBuilder, Expression, PrimitiveValue, MaybeCompositeId , Transaction} from 'objection';
+import {
+  AnyQueryBuilder,
+  Expression,
+  PrimitiveValue,
+  MaybeCompositeId,
+  Transaction,
+} from 'objection';
 import { ObjectionService } from '../service';
 import { Knex as KnexType } from 'knex';
 import { ModelNotFound } from '../exceptions';
@@ -110,7 +116,7 @@ export class Repository<T extends BaseModel> implements IRepository<T> {
 
   async createWithTransaction(
     trx: Transaction,
-    inputs: ModelKeys<T>,
+    inputs: ModelKeys<T>
   ): Promise<T> {
     return this.model.query(trx).insert(inputs).returning('*') as unknown as T;
   }

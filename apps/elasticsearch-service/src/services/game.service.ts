@@ -10,14 +10,12 @@ import { ClientAppProxy } from '@microservice-platform/shared/microservices';
 import { GameElasticSearchFilter } from '@microservice-platform/shared/filters/game-service';
 
 @Injectable()
-export class GameService
-  extends Service
-  implements OnApplicationBootstrap {
+export class GameService extends Service implements OnApplicationBootstrap {
   constructor(
     private readonly elasticsearchService: ElasticsearchService,
 
     @Inject('GAME_SERVICE')
-    private readonly gameService: ClientAppProxy,
+    private readonly gameService: ClientAppProxy
   ) {
     super();
   }
@@ -85,18 +83,14 @@ export class GameService
     id: string,
     filter: GameElasticSearchFilter
   ): Promise<GameDataIndex[]> {
-    const { hits } =
-      await this.elasticsearchService.search<GameDataIndex>({
-        index: ELASTICSEARCH_INDEX.GAME_BY_ID + id,
-        query: this.buildQueryFilter(filter),
-      });
+    const { hits } = await this.elasticsearchService.search<GameDataIndex>({
+      index: ELASTICSEARCH_INDEX.GAME_BY_ID + id,
+      query: this.buildQueryFilter(filter),
+    });
     return hits.hits.map((item) => item._source);
   }
 
-  async createIndexGame(
-    id: string,
-    data: CreateGameIndexByIdDto
-  ) {
+  async createIndexGame(id: string, data: CreateGameIndexByIdDto) {
     return await this.elasticsearchService.index<GameDataIndex>({
       index: ELASTICSEARCH_INDEX.GAME_BY_ID + id,
       id: data.id,

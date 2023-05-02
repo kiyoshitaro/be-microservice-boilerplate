@@ -3,6 +3,5 @@ import { Controller } from '@nestjs/common';
 
 @Controller('elasticsearch')
 export class GameController {
-  constructor(private readonly gameService: GameService) { }
-
+  constructor(private readonly gameService: GameService) {}
 }

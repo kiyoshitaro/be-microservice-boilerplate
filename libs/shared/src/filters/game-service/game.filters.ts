@@ -1,6 +1,13 @@
 import { BaseFilter } from '@microservice-platform/shared/objection';
 import { RequireWith } from '@microservice-platform/shared/validator';
-import { IsBoolean, IsInt, IsOptional, IsPositive, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class GameFilter extends BaseFilter {
   @IsOptional()
