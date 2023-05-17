@@ -22,17 +22,6 @@ services:
     networks:
       - microservice-platform-network
 
-  game-gateway:
-    image: microservice-platform-game-gateway:1.0.0
-    container_name: microservice-platform-game-gateway
-    env_file:
-      - .env.global.dev
-      - apps/game-gateway/.env.dev
-    environment:
-      APP_ENV: dev
-    networks:
-      - microservice-platform-network
-
   game-service:
     image: microservice-platform-game-service:1.0.0
     container_name: microservice-platform-game-service

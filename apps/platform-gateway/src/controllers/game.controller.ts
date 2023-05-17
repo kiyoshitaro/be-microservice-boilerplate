@@ -18,7 +18,7 @@ import {
   ServiceResponseDto,
 } from '@microservice-platform/shared/dtos';
 
-@ApiTags('game-gateway')
+@ApiTags('platform-gateway')
 @Controller('games')
 export class GameController {
   constructor(

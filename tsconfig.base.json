@@ -22,7 +22,6 @@
       ],
 
       "@microservice-platform/job-service/*": ["apps/job-service/src/*"],
-      "@microservice-platform/game-gateway/*": ["apps/game-gateway/src/*"],
       "@microservice-platform/game-service/*": ["apps/game-service/src/*"],
       "@microservice-platform/platform-gateway/*": [
         "apps/platform-gateway/src/*"

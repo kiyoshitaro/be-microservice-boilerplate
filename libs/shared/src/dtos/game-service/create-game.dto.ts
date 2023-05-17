@@ -18,7 +18,7 @@ export class CreateGameDto {
   name: string;
 
   @ApiProperty({
-    example: 'dd165d11-f5c8-4079-9290-07ca60ed8401',
+    example: '55c69259-f463-47a8-9a2d-5131108a93c4',
     nullable: false,
   })
   @IsUUID()
