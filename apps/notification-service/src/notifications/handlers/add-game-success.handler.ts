@@ -15,8 +15,7 @@ import {
 
 @NotificationHandler(AddGameSuccessNotification)
 export class AddGameSuccessNotificationHandler
-  implements
-  INotificationHandler<AddGameSuccessNotification, any>
+  implements INotificationHandler<AddGameSuccessNotification, any>
 {
   @Inject(MNotificationPublisher)
   private mNotificationPublisher: MNotificationPublisher;
@@ -25,14 +24,12 @@ export class AddGameSuccessNotificationHandler
   private commandBus: CommandBus;
 
   @NotificationType()
-  async toDatabase(
-    notification: AddGameSuccessNotification
-  ): Promise<void> {
+  async toDatabase(notification: AddGameSuccessNotification): Promise<void> {
     const { data } = notification;
-    const title = "Add Game Success";
-    const content = "Add Game Success";
+    const title = 'Add Game Success';
+    const content = 'Add Game Success';
     const browserURL = '/user/account-overview';
-    return
+    return;
     // await this.commandBus.execute(
     //   new CreateNotificationCommand({
     //     data: data,
@@ -46,9 +43,7 @@ export class AddGameSuccessNotificationHandler
     // );
   }
 
-  toOneSignal(
-    notification: AddGameSuccessNotification
-  ): Promise<void> {
+  toOneSignal(notification: AddGameSuccessNotification): Promise<void> {
     return Promise.resolve(undefined);
   }
 
@@ -57,7 +52,7 @@ export class AddGameSuccessNotificationHandler
     notification: AddGameSuccessNotification
   ): Promise<void> {
     const { data } = notification;
-    const title = "Add Game Success";
+    const title = 'Add Game Success';
     const content = `Add Game Success ${data.name}`;
     const url = '/user/account-overview';
     const status = ENotificationStatus.SUCCESS;
@@ -68,9 +63,7 @@ export class AddGameSuccessNotificationHandler
     });
   }
 
-  toWsMobilePlatform(
-    notification: AddGameSuccessNotification
-  ): Promise<void> {
+  toWsMobilePlatform(notification: AddGameSuccessNotification): Promise<void> {
     return Promise.resolve(undefined);
   }
 }

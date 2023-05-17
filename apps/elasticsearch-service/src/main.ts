@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { ElasticsearchModule } from './elasticsearch.module';
+import { ElasticSearchModule } from './elasticsearch.module';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { ConfigAppService } from '@microservice-platform/shared/configs';
 import { checkDatabaseConnection } from '@microservice-platform/elasticsearch-service/configs/database';
@@ -12,7 +12,7 @@ async function bootstrap() {
     'elasticsearchService'
   );
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    ElasticsearchModule,
+    ElasticSearchModule,
     elasticsearchConfig
   );
   await app.listen();

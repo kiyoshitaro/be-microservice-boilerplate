@@ -61,7 +61,7 @@ bash migrate.sh user-service
 ### Testing
 - Run test gateway outside docker and test service inside docker
 ```sh
-npm run test:api game-gateway
+npm run test:api platform-gateway
 
 connect ....
 npm run test:api game-service
@@ -71,46 +71,51 @@ npm run test:api game-service
   - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
   - docker-compose.local.yml shoould comment all without base service like : redis, db, kafka to run start-local
 
-Auto gencode with hygen
+### Architecture
 
-Objection module & Base model 
+- Auto gencode with [hygen](https://www.hygen.io/)
 
-Logging query from ORM
+- **Build ORM**: [Objection module](libs/shared/src/modules/objection) & [Base model](libs/shared/src/modules/objection/base-model.ts) & [Query logger](libs/shared/src/modules/objection/knex-logging.ts)
 
-Repository
+- Repository: Build [repository](libs/shared/src/modules/objection/repositories/repository.ts) with common function (transaction, update, insert, ...)
 
-Filtering, Sorting, and Pagination design
+- Design reusable query: Filtering, Sorting, and Pagination
 
-Transformer
+- [**Transformer**](libs/shared/src/transformers/transformer.ts): format data from output of repository
 
-Service: Setup queryBus, commandBus in CQRS to execute query, command  
+- **Service**: Setup queryBus, commandBus in **CQRS** to execute query, command  
 
-Event-driven: 
-  - central-event-innerservice (eventBus) 
-  - Transport event by kafka (kafka Bootstrap Server: kafka:9092,kafka:9093), redis in libs/shared/src/modules/m-event-publisher
-  - Design sagas 
-  - Auto-detect-event-from-decorator, notification-bus
+- Event-driven: 
+  - Central-event-innerservice (eventBus) 
+  - **Publish & Consume** event [module](libs/shared/src/modules/m-event-publisher) by Kafka message queue (kafka Bootstrap Server: kafka:9092,kafka:9093) or Redis Pub/Sub 
+  - Setup **sagas pattern**
 
-MicroserviceExceptionFilter: full control over the exceptions layer. can add logging or use a different JSON schema based on some dynamic factors
+- **Exception** over service: Summarize in [MicroserviceExceptionFilter](libs/shared/src/exceptions/microservice-exception-filter.ts) to full control over the exceptions layer. can add logging or use a different JSON schema based on some dynamic factors
 
-Setup Message-pattern to communicate between services in /libs/shared/src/microservices with ConfigAppService
+- Setup [**Message-pattern**](libs/shared/src/microservices) to communicate between services
 
-Setup Service Cache in Redis
+- Design caching (key & ttl) internal service by Redis, see [1](libs/shared/src/interceptors/MicroserviceCacheInterceptor.ts) and [2](libs/shared/src/cache/MicroserviceCacheFactory.ts)   
 
-Setup notification socket
+- Implement [**notification**](libs/shared/src/modules/notification) through NotificationBus with socket to client and persist db
 
-Pipe-validate & error-template
+- Pipe-validate in gateway & error-template
 
-Elasticsearch
+- Provide **Elasticsearch** module (continue...)
 
-Guard: have access to the ExecutionContext instance, and thus know exactly what's going to be executed next() while middleware auth not 
+- Guard, Auth: have access to the ExecutionContext instance, and thus know exactly what's going to be executed next() while middleware auth not 
 
-Oauth, auth
+- Oauth ( upcoming...)
 
-MetricMiddleware
+- **Metric**: Add [MetricMiddleware](libs/shared/src/modules/metric) module and plug in gateway
 
-Logger
+- Logger (upcoming...)
 
-Setup monoRepo with nx
+- Setup **Monorepo** with [nx](https://nx.dev/) library
 
-Lint fix
+- Add Eslint to **format code**
+
+### Monitor
+- Platform docs: http://localhost:3400/api
+- Kafka UI: http://localhost:9000/cluster
+- Redis Commander: http://localhost:8081
+- Elasticsearch kibana: http://localhost:5601/app/home

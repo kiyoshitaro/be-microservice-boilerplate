@@ -1,4 +1,4 @@
-import {registerAs} from '@nestjs/config';
+import { registerAs } from '@nestjs/config';
 import Knex, { Knex as K } from 'knex';
 import config from './knex';
 import { delay } from '@microservice-platform/shared/utils';

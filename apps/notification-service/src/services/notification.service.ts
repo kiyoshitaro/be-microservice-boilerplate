@@ -8,7 +8,6 @@ import { CreateNotificationDto } from '@microservice-platform/shared/dtos';
 
 @Injectable()
 export class NotificationService extends Service {
-
   async list(
     filters?: NotificationFilter,
     include = ''
@@ -22,6 +21,8 @@ export class NotificationService extends Service {
     const template = await this.commandBus.execute(
       new CreateNotificationCommand(data)
     );
-    return this.queryBus.execute(new GetNotificationQuery(template.id, 'detail'));
+    return this.queryBus.execute(
+      new GetNotificationQuery(template.id, 'detail')
+    );
   }
 }

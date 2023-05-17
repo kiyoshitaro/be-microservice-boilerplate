@@ -4,7 +4,7 @@ import { Transformer$IncludeMethodOptions } from '@microservice-platform/shared/
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class NotificationTransformer extends Transformer< NotificationModel> {
+export class NotificationTransformer extends Transformer<NotificationModel> {
   availableIncludes = [];
   defaultIncludes = [];
 
@@ -21,7 +21,7 @@ export class NotificationTransformer extends Transformer< NotificationModel> {
   }
 
   async include_detail(
-    model:  NotificationModel,
+    model: NotificationModel,
     options: Transformer$IncludeMethodOptions
   ) {
     return {

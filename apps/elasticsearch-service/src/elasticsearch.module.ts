@@ -12,8 +12,10 @@ import { configEventPublisher } from '@microservice-platform/elasticsearch-servi
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { configCache } from '@microservice-platform/elasticsearch-service/configs/cache';
+import { configElasticsearch } from '@microservice-platform/elasticsearch-service/configs/elasticsearch';
 import { ConfigAppService } from '@microservice-platform/shared/configs';
 import { ClientProxyAppFactory } from '@microservice-platform/shared/microservices';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 const transformers = [];
 
@@ -33,11 +35,10 @@ const eventHandlers = [];
 @Module({
   imports: [
     CqrsModule,
-    ConfigAppService,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      load: [configDb, configEventPublisher, configCache],
+      load: [configDb, configEventPublisher, configCache, configElasticsearch],
     }),
     ObjectionModule.registerAsync({
       isGlobal: true,
@@ -49,6 +50,11 @@ const eventHandlers = [];
       isGlobal: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('event-publisher'),
+      inject: [ConfigService],
+    }),
+    ElasticsearchModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => configService.get('elasticsearch'),
       inject: [ConfigService],
     }),
     CacheModule.registerAsync<RedisClientOptions>({
@@ -74,6 +80,7 @@ const eventHandlers = [];
   ],
   controllers: [GameController],
   providers: [
+    ConfigAppService,
     GameService,
     ...transformers,
     ...repositories,
@@ -90,4 +97,4 @@ const eventHandlers = [];
     },
   ],
 })
-export class ElasticsearchModule {}
+export class ElasticSearchModule { }

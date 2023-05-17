@@ -17,9 +17,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import { configCache } from '@microservice-platform/notification-service/configs/cache';
 import * as Notification from '@microservice-platform/notification-service/notifications/handlers';
 
-const transformers = [
-  Transformer.NotificationTransformer
-];
+const transformers = [Transformer.NotificationTransformer];
 
 const repositories = [
   {
@@ -85,4 +83,4 @@ const notifications = [Notification.AddGameSuccessNotificationHandler];
     ...notifications,
   ],
 })
-export class NotificationModule { }
+export class NotificationModule {}

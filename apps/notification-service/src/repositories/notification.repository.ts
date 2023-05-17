@@ -3,11 +3,14 @@ import { NotificationModel } from '../models';
 import { INotificationRepository } from './interfaces';
 import { AnyQueryBuilder } from 'objection';
 import { NotificationFilter } from '@microservice-platform/notification-service/filters';
-import { InjectModel, Repository } from "@microservice-platform/shared/objection";
+import {
+  InjectModel,
+  Repository,
+} from '@microservice-platform/shared/objection';
 
 @Injectable()
 export class NotificationRepository
-  extends Repository< NotificationModel>
+  extends Repository<NotificationModel>
   implements INotificationRepository
 {
   @InjectModel(NotificationModel)
@@ -27,15 +30,13 @@ export class NotificationRepository
     return query;
   }
 
-  async list(
-    filter?: NotificationFilter,
-  ): Promise< NotificationModel[] > {
+  async list(filter?: NotificationFilter): Promise<NotificationModel[]> {
     const query = NotificationRepository.queryFilter(this.query(), filter);
     return query;
   }
 
   async listPaginate(
-    filter?: NotificationFilter,
+    filter?: NotificationFilter
   ): Promise<{ items: NotificationModel[]; pagination: Record<string, any> }> {
     const filterPagination = { ...filter };
     delete filterPagination.page;
@@ -46,5 +47,4 @@ export class NotificationRepository
     );
     return super.paginate(query, filter?.page, filter?.limit);
   }
-
 }

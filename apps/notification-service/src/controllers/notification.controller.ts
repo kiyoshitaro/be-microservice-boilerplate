@@ -1,7 +1,12 @@
 import { NotificationService } from '@microservice-platform/notification-service/services';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { NotificationFilter } from '@microservice-platform/notification-service/filters';
-import { CacheTTL, Controller, HttpStatus, UseInterceptors } from '@nestjs/common';
+import {
+  CacheTTL,
+  Controller,
+  HttpStatus,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   CreateNotificationDto,
   ServiceResponseDto,

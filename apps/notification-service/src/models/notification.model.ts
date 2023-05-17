@@ -2,7 +2,7 @@ import { BaseModel } from '@microservice-platform/shared/objection';
 
 class NotificationModel extends BaseModel {
   static tableName = 'notification';
-  static connection = "postgres";
+  static connection = 'postgres';
   id!: string;
   created_at?: Date | null;
   updated_at?: Date | null;

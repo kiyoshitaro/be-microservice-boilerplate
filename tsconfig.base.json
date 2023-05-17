@@ -17,7 +17,9 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "paths": {
-      "@microservice-platform/notification-service/*": ["apps/notification-service/src/*"],
+      "@microservice-platform/notification-service/*": [
+        "apps/notification-service/src/*"
+      ],
 
       "@microservice-platform/elasticsearch-service/*": [
         "apps/elasticsearch-service/src/*"
@@ -83,6 +85,9 @@
       ],
       "@microservice-platform/shared/interceptors": [
         "libs/shared/src/interceptors/index.ts"
+      ],
+      "@microservice-platform/shared/metric": [
+        "libs/shared/src/modules/metric/index.ts"
       ],
       "@microservice-platform/shared/cache": ["libs/shared/src/cache/index.ts"]
     }

@@ -6,7 +6,9 @@ import { REPOSITORIES } from '@microservice-platform/notification-service/consta
 import { NotificationTransformer } from '@microservice-platform/notification-service/transformers';
 
 @QueryHandler(GetsNotificationQuery)
-export class GetsNotificationHandler implements IQueryHandler<GetsNotificationQuery> {
+export class GetsNotificationHandler
+  implements IQueryHandler<GetsNotificationQuery>
+{
   @Inject(REPOSITORIES.NOTIFICATION_REPOSITORY)
   private repository: INotificationRepository;
 
