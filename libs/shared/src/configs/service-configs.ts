@@ -5,6 +5,13 @@ export class ConfigAppService {
 
   constructor() {
     this.envConfig = {};
+    this.envConfig.notificationService = {
+      options: {
+        port: process.env.NOTIFICATION_SERVICE_PORT,
+        host: process.env.NOTIFICATION_SERVICE_HOST,
+      },
+      transport: Transport.TCP,
+    };
     this.envConfig.elasticsearchService = {
       options: {
         port: process.env.ELASTICSEARCH_SERVICE_PORT,

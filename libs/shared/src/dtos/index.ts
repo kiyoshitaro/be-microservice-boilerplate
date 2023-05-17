@@ -12,3 +12,4 @@ export * from './game-service/create-game.dto';
 export * from './service-response.dto';
 export * from './job-service/create-job.dto';
 export * from './elasticsearch-service/create-elasticsearch.dto';
+export * from './notification-service/create-notification.dto';

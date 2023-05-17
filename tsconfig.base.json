@@ -17,6 +17,8 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "paths": {
+      "@microservice-platform/notification-service/*": ["apps/notification-service/src/*"],
+
       "@microservice-platform/elasticsearch-service/*": [
         "apps/elasticsearch-service/src/*"
       ],

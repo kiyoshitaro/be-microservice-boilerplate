@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  notification-service:
+    image: microservice-platform-notification-service:1.0.0
+    container_name: microservice-platform-notification-service
+    env_file:
+      - .env.global.dev
+      - apps/notification-service/.env.dev
+    environment:
+      APP_ENV: dev
+    networks:
+      - microservice-platform-network
+      
   elasticsearch-service:
     image: microservice-platform-elasticsearch-service:1.0.0
     container_name: microservice-platform-elasticsearch-service

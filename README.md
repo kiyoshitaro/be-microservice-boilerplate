@@ -32,7 +32,7 @@ bash init-project.sh
 ``` 
 ### Create service
 - Run below script to create new service , which will auto:
-  - Copy servn docker-cice codebase following template
+  - Copy service codebase following template
   - Add env compose.local , docker-compose.local but must set specific port&host  
   - Store host/post config in libs/shared/src/configs/service-configs.ts
 - Should be care about: 

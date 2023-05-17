@@ -30,7 +30,6 @@ export class CreateGameHandler
       cover_url,
     });
     this.eventBus.publish(new GameCreatedEvent(result));
-
     return result;
   }
 }
