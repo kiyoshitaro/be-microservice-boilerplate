@@ -11,7 +11,10 @@
     "target": "es2015",
     "module": "esnext",
     "esModuleInterop": true,
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -20,17 +23,21 @@
       "@microservice-platform/notification-service/*": [
         "apps/notification-service/src/*"
       ],
-
       "@microservice-platform/elasticsearch-service/*": [
         "apps/elasticsearch-service/src/*"
       ],
-
-      "@microservice-platform/job-service/*": ["apps/job-service/src/*"],
-      "@microservice-platform/game-service/*": ["apps/game-service/src/*"],
+      "@microservice-platform/job-service/*": [
+        "apps/job-service/src/*"
+      ],
+      "@microservice-platform/game-service/*": [
+        "apps/game-service/src/*"
+      ],
       "@microservice-platform/platform-gateway/*": [
         "apps/platform-gateway/src/*"
       ],
-      "@microservice-platform/user-service/*": ["apps/user-service/src/*"],
+      "@microservice-platform/user-service/*": [
+        "apps/user-service/src/*"
+      ],
       "@microservice-platform/orchestrator-service/*": [
         "apps/orchestrator-service/src/*"
       ],
@@ -64,16 +71,21 @@
       "@microservice-platform/shared/interfaces": [
         "libs/shared/src/interfaces/index.ts"
       ],
-      "@microservice-platform/shared/utils": ["libs/shared/src/utils/index.ts"],
+      "@microservice-platform/shared/utils": [
+        "libs/shared/src/utils/index.ts"
+      ],
       "@microservice-platform/shared/configs": [
         "libs/shared/src/configs/index.ts"
       ],
-      "@microservice-platform/shared/filters/*": ["libs/shared/src/filters/*"],
-      "@microservice-platform/shared/loggers": [
-        "libs/shared/src/loggers/index.ts"
+      "@microservice-platform/shared/filters/*": [
+        "libs/shared/src/filters/*"
       ],
-      "@microservice-platform/shared/types/*": ["libs/shared/src/types/*"],
-      "@microservice-platform/shared/dtos": ["libs/shared/src/dtos/index.ts"],
+      "@microservice-platform/shared/types/*": [
+        "libs/shared/src/types/*"
+      ],
+      "@microservice-platform/shared/dtos": [
+        "libs/shared/src/dtos/index.ts"
+      ],
       "@microservice-platform/shared/transactions/*": [
         "libs/shared/src/transactions/*"
       ],
@@ -89,8 +101,16 @@
       "@microservice-platform/shared/metric": [
         "libs/shared/src/modules/metric/index.ts"
       ],
-      "@microservice-platform/shared/cache": ["libs/shared/src/cache/index.ts"]
+      "@microservice-platform/shared/loggers": [
+        "libs/shared/src/modules/loggers/index.ts"
+      ],
+      "@microservice-platform/shared/cache": [
+        "libs/shared/src/cache/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

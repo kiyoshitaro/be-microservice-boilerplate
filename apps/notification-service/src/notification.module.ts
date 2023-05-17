@@ -16,6 +16,7 @@ import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { configCache } from '@microservice-platform/notification-service/configs/cache';
 import * as Notification from '@microservice-platform/notification-service/notifications/handlers';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
 
 const transformers = [Transformer.NotificationTransformer];
 
@@ -35,6 +36,7 @@ const notifications = [Notification.AddGameSuccessNotificationHandler];
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,

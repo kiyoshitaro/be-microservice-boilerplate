@@ -16,6 +16,7 @@ import { configElasticsearch } from '@microservice-platform/elasticsearch-servic
 import { ConfigAppService } from '@microservice-platform/shared/configs';
 import { ClientProxyAppFactory } from '@microservice-platform/shared/microservices';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
 
 const transformers = [];
 
@@ -35,6 +36,7 @@ const eventHandlers = [];
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -54,7 +56,8 @@ const eventHandlers = [];
     }),
     ElasticsearchModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => configService.get('elasticsearch'),
+      useFactory: async (configService: ConfigService) =>
+        configService.get('elasticsearch'),
       inject: [ConfigService],
     }),
     CacheModule.registerAsync<RedisClientOptions>({

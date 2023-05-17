@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 - This template was built according to:
   - Inversion of Control
   - Repository Pattern
@@ -7,17 +7,17 @@
 
 - Using MVC design pattern, with controller(api layer), services(service layer) and repository(database layer)
 
-## Technology stack
+# Technology stack
+#nestjs #monorepo #objection #knex #kafka #redis #jest #postgresql #docker
 
+# How to run template ?
 
-## How to run template ?
-
-### Prepare
+## Prepare
 ```sh
 git clone https://github.com/kiyoshitaro/be-microservice-boilerplate.git
 cd be-microservice-boilerplate
 ```
-### Initialize
+## Initialize
 - Replace **be-microservice-boilerplate** network with real name of project
 - Remove all .env.dev in all service to run it and provide execute permission all .sh file 
 ```sh
@@ -30,7 +30,7 @@ chmod 775 *.sh
 bash init-project.sh 
 (npm i maybe stuck just cancel and do again)
 ``` 
-### Create service
+## Create service
 - Run below script to create new service , which will auto:
   - Copy service codebase following template
   - Add env compose.local , docker-compose.local but must set specific port&host  
@@ -51,14 +51,14 @@ bash restart-service.sh user-service
 - **NOTE**: 
   - in window wsl should comment ***npm install --verbose*** in docker/nest/dev.dockerfile then install after connect to container
   - Add port/host in test api file, docker-compose.dev.yml manually
-### Create database
+## Create database
 - Create db user_service in host
 - Connect service and run  
 ```sh
 bash migrate.sh user-service
 ``` 
 
-### Testing
+## Testing
 - Run test gateway outside docker and test service inside docker
 ```sh
 npm run test:api platform-gateway
@@ -70,35 +70,40 @@ npm run test:api game-service
 - **CODE NOTE**: 
   - Dynamic module: registerAsync, forRootAsync (async when need to inject) <-- in **forRootAsync** function of module need to pass variable <-- inject **ConfigService** to this params <-- **ConfigService** from **ConfigModule** which load some custom config <-- custom config defined by **registerAs**
   - docker-compose.local.yml shoould comment all without base service like : redis, db, kafka to run start-local
+## Monitor
+- Platform docs: http://localhost:3400/api
+- Kafka UI: http://localhost:9000/cluster
+- Redis Commander: http://localhost:8081
+- Elasticsearch kibana: http://localhost:5601/app/home
 
-### Architecture
+# Architecture
 
 - Auto gencode with [hygen](https://www.hygen.io/)
 
 - **Build ORM**: [Objection module](libs/shared/src/modules/objection) & [Base model](libs/shared/src/modules/objection/base-model.ts) & [Query logger](libs/shared/src/modules/objection/knex-logging.ts)
 
-- Repository: Build [repository](libs/shared/src/modules/objection/repositories/repository.ts) with common function (transaction, update, insert, ...)
+- **Repository**: Build [repository](libs/shared/src/modules/objection/repositories/repository.ts) with common function (transaction, update, insert, ...)
 
-- Design reusable query: Filtering, Sorting, and Pagination
+- Design reusable **query**: Filtering, Sorting, and Pagination
 
 - [**Transformer**](libs/shared/src/transformers/transformer.ts): format data from output of repository
 
 - **Service**: Setup queryBus, commandBus in **CQRS** to execute query, command  
 
-- Event-driven: 
+- **Event-driven**: 
   - Central-event-innerservice (eventBus) 
   - **Publish & Consume** event [module](libs/shared/src/modules/m-event-publisher) by Kafka message queue (kafka Bootstrap Server: kafka:9092,kafka:9093) or Redis Pub/Sub 
   - Setup **sagas pattern**
 
 - **Exception** over service: Summarize in [MicroserviceExceptionFilter](libs/shared/src/exceptions/microservice-exception-filter.ts) to full control over the exceptions layer. can add logging or use a different JSON schema based on some dynamic factors
 
-- Setup [**Message-pattern**](libs/shared/src/microservices) to communicate between services
+- Setup [**message-pattern**](libs/shared/src/microservices) to communicate between services
 
-- Design caching (key & ttl) internal service by Redis, see [1](libs/shared/src/interceptors/MicroserviceCacheInterceptor.ts) and [2](libs/shared/src/cache/MicroserviceCacheFactory.ts)   
+- **Cache**: Design key & ttl internal service by Redis, see [1](libs/shared/src/interceptors/MicroserviceCacheInterceptor.ts) and [2](libs/shared/src/cache/MicroserviceCacheFactory.ts)   
 
-- Implement [**notification**](libs/shared/src/modules/notification) through NotificationBus with socket to client and persist db
+- **Notification** system: Implement [NotificationBus](libs/shared/src/modules/notification) with socket to client and persist db
 
-- Pipe-validate in gateway & error-template
+- **Validator**: Pipe-validate in gateway & error-template
 
 - Provide **Elasticsearch** module (continue...)
 
@@ -108,14 +113,10 @@ npm run test:api game-service
 
 - **Metric**: Add [MetricMiddleware](libs/shared/src/modules/metric) module and plug in gateway
 
-- Logger (upcoming...)
+- **Logger**: Provide [logger module](libs/shared/src/modules/loggers) and log error in inceptor
 
-- Setup **Monorepo** with [nx](https://nx.dev/) library
+- **Testing**: e2e test with **jest** provided by nx 
+
+- **Project structure**: Setup **Monorepo** with [nx](https://nx.dev/) library, docker-compose to manage tools
 
 - Add Eslint to **format code**
-
-### Monitor
-- Platform docs: http://localhost:3400/api
-- Kafka UI: http://localhost:9000/cluster
-- Redis Commander: http://localhost:8081
-- Elasticsearch kibana: http://localhost:5601/app/home

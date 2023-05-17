@@ -7,6 +7,7 @@ import { configDb } from '@microservice-platform/job-service/configs/database';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/job-service/configs/event-publisher';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
 
 const transformers = [];
 
@@ -21,6 +22,7 @@ const eventHandlers = [];
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -49,4 +51,4 @@ const eventHandlers = [];
     ...eventHandlers,
   ],
 })
-export class JobModule {}
+export class JobModule { }

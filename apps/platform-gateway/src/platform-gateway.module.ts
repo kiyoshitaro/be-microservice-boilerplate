@@ -1,13 +1,25 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { GameController } from '@microservice-platform/platform-gateway/controllers';
 import { ConfigAppService } from '@microservice-platform/shared/configs';
 import { ClientProxyAppFactory } from '@microservice-platform/shared/microservices';
 import { HealthModule } from '@microservice-platform/platform-gateway/health/health.module';
-import { MetricMiddleware, MetricModule } from '@microservice-platform/shared/metric';
+import {
+  MetricMiddleware,
+  MetricModule,
+} from '@microservice-platform/shared/metric';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpLoggingInterceptor } from '@microservice-platform/shared/interceptors';
 
 @Module({
   imports: [
     HealthModule,
+    LoggerModule,
     MetricModule.register({ app_name: 'platform-gateway' }),
   ],
   controllers: [GameController],
@@ -28,6 +40,10 @@ import { MetricMiddleware, MetricModule } from '@microservice-platform/shared/me
         return ClientProxyAppFactory.create(userServiceOptions);
       },
       inject: [ConfigAppService],
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpLoggingInterceptor,
     },
   ],
 })

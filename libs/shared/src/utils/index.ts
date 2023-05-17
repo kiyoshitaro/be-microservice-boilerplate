@@ -5,3 +5,4 @@ export * from './packageLoader';
 export * from './helper';
 export * from './password';
 export * from './dto';
+export * from './time';

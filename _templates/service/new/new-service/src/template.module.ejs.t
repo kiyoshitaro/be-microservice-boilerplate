@@ -19,6 +19,7 @@ import { configEventPublisher } from '@microservice-platform/<%=name%>-service/c
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { configCache } from '@microservice-platform/<%=name%>-service/configs/cache';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
 
 const transformers = [
   Transformer.<%= h.changeCase.pascalCase(name) %>Transformer
@@ -40,6 +41,7 @@ const eventHandlers = [EventHandler.<%= h.changeCase.pascalCase(name) %>CreatedH
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,

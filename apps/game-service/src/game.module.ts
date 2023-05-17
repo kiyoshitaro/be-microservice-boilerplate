@@ -19,6 +19,9 @@ import { configEventPublisher } from '@microservice-platform/game-service/config
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { configCache } from '@microservice-platform/game-service/configs/cache';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MicroserviceLoggingInterceptor } from '@microservice-platform/shared/interceptors';
 
 const transformers = [
   Transformer.GameTransformer,
@@ -45,6 +48,7 @@ const eventHandlers = [EventHandler.GameCreatedHandler];
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -92,6 +96,10 @@ const eventHandlers = [EventHandler.GameCreatedHandler];
     ...commands,
     ...queries,
     ...eventHandlers,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MicroserviceLoggingInterceptor,
+    },
   ],
 })
-export class GameModule {}
+export class GameModule { }

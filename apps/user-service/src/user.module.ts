@@ -18,6 +18,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { MicroserviceEventPublisherModule } from '@microservice-platform/shared/m-event-publisher';
 import { configEventPublisher } from '@microservice-platform/user-service/configs/event-publisher';
 import { GameSagas } from './sagas';
+import { LoggerModule } from '@microservice-platform/shared/loggers';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MicroserviceLoggingInterceptor } from '@microservice-platform/shared/interceptors';
 
 const transformers = [
   Transformer.UserTransformer,
@@ -50,6 +53,7 @@ const sagas = [GameSagas];
 @Module({
   imports: [
     CqrsModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -77,6 +81,10 @@ const sagas = [GameSagas];
     ...queries,
     ...eventHandlers,
     ...sagas,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MicroserviceLoggingInterceptor,
+    },
   ],
 })
-export class UserModule {}
+export class UserModule { }
