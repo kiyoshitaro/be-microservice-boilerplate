@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PlatformController } from '@microservice-platform/platform-gateway/controllers';
+import { GameController } from '@microservice-platform/platform-gateway/controllers';
 import { ConfigAppService } from '@microservice-platform/shared/configs';
 import { ClientProxyAppFactory } from '@microservice-platform/shared/microservices';
 import { HealthModule } from '@microservice-platform/platform-gateway/health/health.module';
 
 @Module({
   imports: [HealthModule],
-  controllers: [PlatformController],
+  controllers: [GameController],
   providers: [
     ConfigAppService,
     {
@@ -27,4 +27,4 @@ import { HealthModule } from '@microservice-platform/platform-gateway/health/hea
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

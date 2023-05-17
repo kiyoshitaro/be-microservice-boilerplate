@@ -1,1 +1,1 @@
-export * from './platform.controller';
+export * from './game.controller';

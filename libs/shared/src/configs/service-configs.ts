@@ -19,6 +19,13 @@ export class ConfigAppService {
       },
       transport: Transport.TCP,
     };
+    this.envConfig.gameGatewayPort = process.env.GAME_GATEWAY_PORT;
+    this.envConfig.gameService = {
+      options: {
+        port: process.env.GAME_SERVICE_PORT,
+        host: process.env.GAME_SERVICE_HOST,
+      },
+    };
     this.envConfig.platformGatewayPort = process.env.PLATFORM_GATEWAY_PORT;
     this.envConfig.userService = {
       options: {
