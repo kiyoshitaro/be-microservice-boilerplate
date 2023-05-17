@@ -22,10 +22,6 @@
       ],
 
       "@microservice-platform/job-service/*": ["apps/job-service/src/*"],
-
-      "@microservice-platform/game-user-gateway/*": [
-        "apps/game-user-gateway/src/*"
-      ],
       "@microservice-platform/game-gateway/*": ["apps/game-gateway/src/*"],
       "@microservice-platform/game-service/*": ["apps/game-service/src/*"],
       "@microservice-platform/platform-gateway/*": [
@@ -70,13 +66,6 @@
         "libs/shared/src/configs/index.ts"
       ],
       "@microservice-platform/shared/filters/*": ["libs/shared/src/filters/*"],
-      "@microservice-platform/public-api-gateway/*": [
-        "apps/public-api-gateway/src/*"
-      ],
-      "@microservice-platform/dapp-service/*": ["apps/dapp-service/src/*"],
-      "@microservice-platform/template-service/*": [
-        "apps/template-service/src/*"
-      ],
       "@microservice-platform/shared/loggers": [
         "libs/shared/src/loggers/index.ts"
       ],
