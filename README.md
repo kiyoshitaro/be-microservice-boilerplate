@@ -4,6 +4,7 @@
   - Repository Pattern
   - Command Query Responsibility Separation
   - Saga
+  - Mono repositories
 
 - Using MVC design pattern, with controller(api layer), services(service layer) and repository(database layer)
 
