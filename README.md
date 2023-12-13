@@ -121,3 +121,4 @@ npm run test:api game-service
 - **Project structure**: Setup **Monorepo** with [nx](https://nx.dev/) library, docker-compose to manage tools
 
 - Add Eslint to **format code**
+
